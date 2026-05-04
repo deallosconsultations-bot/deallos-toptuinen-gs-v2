@@ -1,1089 +1,916 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Toptuinen G & S — Hoveniers uit het Hageland</title>
-<meta name="description" content="Hoveniersbedrijf in Leuven en het Hageland. Tuinaanleg, onderhoud en renovatie. Bekroond met 4.8/5 door 22 klanten.">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Toptuinen G & S — Tuinaanleg & Onderhoud Leuven</title>
+<meta name="description" content="Hoveniersbedrijf Toptuinen G & S uit het Hageland. Tuinaanleg, onderhoud en renovatie in Leuven, Kessel-Lo, Wijgmaal en omstreken.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink: #151515;
-    --cream: #F3EFE6;
-    --terracotta: #B85530;
-    --olive: #3D5C3A;
-    --stone: #7D7568;
-    --warm: #E8DDD0;
-  }
-  html.lenis, html.lenis body { height: auto; }
-  .lenis.lenis-smooth { scroll-behavior: auto !important; }
-  body { font-family: 'Inter', sans-serif; background: var(--ink); color: var(--cream); overflow-x: hidden; }
-  .display { font-family: 'DM Serif Display', Georgia, serif; }
-  .ui-serif { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; }
-
-  /* === HERO CANVAS LAYER === */
-  #heroCanvas {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none; z-index: 2;
-  }
-
-  /* === NAV === */
-  .nav-glass {
-    background: rgba(21,21,21,0.4);
-    backdrop-filter: blur(20px) saturate(1.5);
-    -webkit-backdrop-filter: blur(20px) saturate(1.5);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .nav-link { position: relative; }
-  .nav-link::after {
-    content: ''; position: absolute; bottom: -4px; left: 0;
-    width: 0; height: 1.5px; background: var(--terracotta);
-    transition: width 0.4s cubic-bezier(.25,.46,.45,.94);
-  }
-  .nav-link:hover::after { width: 100%; }
-
-  /* === KEN BURNS === */
-  @keyframes kenBurns {
-    0% { transform: scale(1) translate(0,0); }
-    50% { transform: scale(1.08) translate(-1%, 0.5%); }
-    100% { transform: scale(1) translate(0,0); }
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background-size: cover; background-position: center;
-    animation: kenBurns 24s ease-in-out infinite alternate;
-    will-change: transform;
-  }
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg,
-      rgba(21,21,21,0.2) 0%,
-      rgba(21,21,21,0.1) 40%,
-      rgba(21,21,21,0.5) 70%,
-      rgba(21,21,21,0.95) 100%);
-  }
-
-  /* === MARQUEE === */
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  .marquee-track {
-    display: flex; width: max-content;
-    animation: marquee 40s linear infinite;
-  }
-
-  /* === SCROLL PINNED BEFORE/AFTER === */
-  .ba-section { height: 300vh; position: relative; }
-  .ba-sticky {
-    position: sticky; top: 0; height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .ba-container {
-    position: relative; width: 100%; max-width: 1200px; aspect-ratio: 16/9;
-    border-radius: 24px; overflow: hidden;
-  }
-  .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .ba-after { clip-path: inset(0 100% 0 0); }
-
-  /* === 3D SERVICE CARDS === */
-  .service-card {
-    transform-style: preserve-3d;
-    perspective: 1000px;
-    transition: transform 0.6s cubic-bezier(.25,.46,.45,.94);
-  }
-  .service-card-inner {
-    transform-style: preserve-3d;
-    transition: transform 0.5s ease;
-  }
-  .service-card:hover .service-card-inner {
-    transform: rotateX(2deg) rotateY(2deg) translateZ(10px);
-  }
-  .service-img-wrap {
-    overflow: hidden; border-radius: 20px;
-  }
-  .service-img-wrap img {
-    transition: transform 0.8s cubic-bezier(.25,.46,.45,.94);
-  }
-  .service-card:hover .service-img-wrap img {
-    transform: scale(1.08);
-  }
-
-  /* === PROCESS STEPS === */
-  .step-line-svg {
-    position: absolute; left: 50%; top: 0; transform: translateX(-50%);
-    height: 100%; width: 2px; overflow: visible;
-  }
-  .step-line-path {
-    stroke: var(--terracotta); stroke-width: 2; fill: none;
-    stroke-dasharray: 1000; stroke-dashoffset: 1000;
-  }
-  .step-node {
-    width: 56px; height: 56px; border-radius: 50%;
-    background: transparent; border: 2px solid rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 18px; color: rgba(255,255,255,0.5);
-    transition: all 0.6s ease;
-  }
-  .step-node.active {
-    background: var(--terracotta); border-color: var(--terracotta);
-    color: white; box-shadow: 0 0 40px rgba(184,85,48,0.4);
-  }
-
-  /* === PORTFOLIO MASONRY WITH PARALLAX === */
-  .portfolio-item {
-    overflow: hidden; border-radius: 20px;
-    position: relative;
-  }
-  .portfolio-item img {
-    transition: transform 0.8s cubic-bezier(.25,.46,.45,.94);
-    will-change: transform;
-  }
-  .portfolio-item:hover img {
-    transform: scale(1.08);
-  }
-  .portfolio-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(21,21,21,0.85) 0%, transparent 55%);
-    opacity: 0; transition: opacity 0.5s ease;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 28px;
-  }
-  .portfolio-item:hover .portfolio-overlay { opacity: 1; }
-  .portfolio-meta { transform: translateY(12px); opacity: 0; transition: all 0.4s ease; }
-  .portfolio-item:hover .portfolio-meta { transform: translateY(0); opacity: 1; }
-
-  /* === TESTIMONIAL PINNED === */
-  .testimonial-section { height: 200vh; position: relative; }
-  .testimonial-sticky {
-    position: sticky; top: 0; height: 100vh;
-    display: flex; align-items: center;
-    overflow: hidden;
-  }
-
-  /* === CTA CANVAS === */
-  #ctaCanvas {
-    position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  }
-
-  /* === CURSOR GLOW === */
-  .cursor-glow {
-    position: fixed; width: 300px; height: 300px;
-    border-radius: 50%; pointer-events: none;
-    background: radial-gradient(circle, rgba(184,85,48,0.12) 0%, transparent 70%);
-    z-index: 9999; transform: translate(-50%,-50%);
-    transition: opacity 0.3s ease; opacity: 0;
-    will-change: transform;
-  }
-
-  /* === UTILS === */
-  .text-gradient {
-    background: linear-gradient(135deg, #fff 0%, var(--warm) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .reveal-text {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-  }
-  .reveal-text .char {
-    display: inline-block; transform: translateY(110%);
-    transition: transform 0.6s cubic-bezier(.7,0,.3,1);
-  }
-  .reveal-text.revealed .char { transform: translateY(0); }
-
-  .split-line {
-    overflow: hidden; display: block;
-  }
-  .split-line-inner {
-    display: block; transform: translateY(110%);
-    transition: transform 0.8s cubic-bezier(.16,1,.3,1);
-  }
-  .split-line-inner.revealed { transform: translateY(0); }
-
-  @media (max-width: 768px) {
-    .ba-container { aspect-ratio: 4/3; border-radius: 16px; }
-    .step-line-svg { left: 28px; }
-  }
+:root {
+  --bg: #F7F4EF;
+  --ink: #1a1818;
+  --ink-soft: rgba(26,24,24,0.55);
+  --terracotta: #9B5D3A;
+  --terracotta-light: rgba(155,93,58,0.12);
+  --olive: #5A6B4A;
+  --sand: #ECE7DD;
+  --white: #FFFFFF;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: auto; }
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+body {
+  font-family:'Inter',-apple-system,sans-serif; 
+  background:var(--bg); 
+  color:var(--ink); 
+  overflow-x:hidden;
+}
+.font-display { font-family:'Cormorant Garamond',Georgia,serif; }
+.custom-cursor {
+  position:fixed; width:12px; height:12px; background:var(--terracotta);
+  border-radius:50%; pointer-events:none; z-index:9999;
+  mix-blend-mode:difference; transition:transform 0.15s ease;
+}
+.custom-cursor.hover { transform:scale(3); }
+.cursor-trail {
+  position:fixed; width:40px; height:40px; border:1px solid var(--terracotta);
+  border-radius:50%; pointer-events:none; z-index:9998;
+  opacity:0.4; transition:transform 0.3s ease, opacity 0.3s ease;
+}
+#grain-canvas {
+  position:fixed; inset:0; pointer-events:none; z-index:9990;
+  opacity:0.035;
+}
+.pinned-section {
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+}
+.nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:24px 48px;
+  display:flex; justify-content:space-between; align-items:center;
+  transition:background 0.4s ease, backdrop-filter 0.4s ease, padding 0.3s ease;
+}
+.nav.scrolled {
+  background:rgba(247,244,239,0.85);
+  backdrop-filter:blur(20px);
+  padding:16px 48px;
+}
+.nav-logo { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:400; color:var(--ink); text-decoration:none; }
+.nav-logo span { font-weight:300; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; margin-left:12px; opacity:0.6; }
+.nav-links { display:flex; gap:40px; align-items:center; }
+.nav-links a {
+  text-decoration:none; color:var(--ink);
+  font-size:13px; font-weight:500; letter-spacing:0.04em;
+  text-transform:uppercase; position:relative;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px;
+  background:var(--terracotta); transition:width 0.3s ease;
+}
+.nav-links a:hover::after { width:100%; }
+.nav-cta {
+  padding:12px 28px; border-radius:100px; background:var(--terracotta); color:#fff;
+  text-decoration:none; font-size:13px; font-weight:600; letter-spacing:0.03em;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+.nav-cta:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(155,93,58,0.3); }
+.hero-bg {
+  position:absolute; inset:0; z-index:1;
+  background:url('img/hero-garden.jpg') center/cover no-repeat;
+  transform:scale(1.15);
+}
+.hero-overlay {
+  position:absolute; inset:0; z-index:2;
+  background:linear-gradient(to bottom, rgba(26,24,24,0.3) 0%, rgba(26,24,24,0.1) 40%, rgba(26,24,24,0.5) 70%, rgba(247,244,239,1) 100%);
+}
+.hero-content { position:relative; z-index:10; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:0 48px 15vh; }
+.hero-eyebrow { 
+  font-size:11px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; 
+  color:rgba(255,255,255,0.7); margin-bottom:24px; overflow:hidden;
+}
+.hero-eyebrow span { display:inline-block; }
+.hero-headline {
+  font-family:'Cormorant Garamond',serif; font-size:clamp(48px,7vw,110px);
+  font-weight:300; color:#fff; line-height:0.95; letter-spacing:-0.02em;
+  max-width:900px; overflow:hidden;
+}
+.hero-headline .line { display:block; overflow:hidden; }
+.hero-headline .line span { display:block; transform:translateY(110%); }
+.hero-sub {
+  font-size:18px; font-weight:300; color:rgba(255,255,255,0.8);
+  max-width:480px; margin-top:32px; line-height:1.6; letter-spacing:-0.01em;
+  overflow:hidden;
+}
+.hero-sub span { display:block; transform:translateY(110%); }
+.hero-cta-row { display:flex; gap:16px; margin-top:48px; overflow:hidden; }
+.hero-cta-row a { transform:translateY(110%); }
+.hero-cta-primary {
+  padding:18px 40px; border-radius:100px; background:var(--terracotta); color:#fff;
+  text-decoration:none; font-size:14px; font-weight:600; letter-spacing:0.02em;
+  transition:transform 0.3s ease, box-shadow 0.3s ease; display:inline-flex; align-items:center; gap:10px;
+}
+.hero-cta-primary:hover { transform:translateY(-3px) scale(1.02); box-shadow:0 20px 50px rgba(155,93,58,0.4); }
+.hero-cta-secondary {
+  padding:18px 40px; border-radius:100px; border:1px solid rgba(255,255,255,0.4); color:#fff;
+  text-decoration:none; font-size:14px; font-weight:500; backdrop-filter:blur(10px);
+  transition:background 0.3s ease, border-color 0.3s ease;
+}
+.hero-cta-secondary:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.6); }
+.hero-info-bar {
+  position:absolute; bottom:48px; right:48px; z-index:10;
+  display:flex; gap:32px; text-align:right;
+}
+.hero-info-bar .info-item { 
+  font-size:12px; color:rgba(255,255,255,0.7); letter-spacing:0.05em;
+}
+.hero-info-bar .info-item strong { 
+  display:block; color:#fff; font-size:14px; font-weight:600; margin-top:4px;
+}
+.scroll-indicator { 
+  position:absolute; bottom:48px; left:50%; transform:translateX(-50%); z-index:10;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.scroll-indicator .mouse {
+  width:22px; height:36px; border:1.5px solid rgba(255,255,255,0.5);
+  border-radius:12px; position:relative;
+}
+.scroll-indicator .mouse::after {
+  content:''; position:absolute; top:6px; left:50%; transform:translateX(-50%);
+  width:4px; height:4px; background:#fff; border-radius:50%;
+  animation:mouseScroll 1.8s infinite;
+}
+@keyframes mouseScroll { 0% { top:6px; opacity:1; } 100% { top:20px; opacity:0; } }
+.section-about { background:var(--bg); position:relative; z-index:3; }
+.about-inner { display:grid; grid-template-columns:1fr 1fr; min-height:100vh; align-items:center; gap:0; }
+.about-image-wrap { position:relative; height:100%; overflow:hidden; }
+.about-image-wrap img { 
+  width:100%; height:100%; object-fit:cover;
+}
+.about-image-wrap .image-reveal { position:absolute; inset:0; background:var(--bg); z-index:2; }
+.about-text { padding:120px 64px; }
+.about-eyebrow { 
+  font-size:11px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; 
+  color:var(--terracotta); margin-bottom:24px;
+}
+.about-headline {
+  font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,64px);
+  font-weight:300; line-height:1.05; letter-spacing:-0.02em; margin-bottom:32px;
+}
+.about-body { 
+  font-size:16px; font-weight:400; color:var(--ink-soft);
+  line-height:1.75; margin-bottom:48px; max-width:480px;
+}
+.about-stats { display:flex; gap:48px; }
+.about-stats .stat {}
+.about-stats .stat-num {
+  font-family:'Cormorant Garamond',serif; font-size:56px; font-weight:300;
+  color:var(--terracotta); line-height:1;
+}
+.about-stats .stat-label {
+  font-size:12px; color:var(--ink-soft); letter-spacing:0.1em; text-transform:uppercase; margin-top:8px;
+}
+.section-services { position:relative; background:var(--sand); }
+.services-header { text-align:center; padding:120px 48px 80px; }
+.services-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--terracotta); margin-bottom:20px; }
+.services-headline { font-family:'Cormorant Garamond',serif; font-size:clamp(40px,5vw,72px); font-weight:300; line-height:1; }
+.services-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; }
+.service-card {
+  position:relative; height:70vh; min-height:500px;
+  overflow:hidden; cursor:pointer;
+}
+.service-card img { width:100%; height:100%; object-fit:cover; transition:transform 1.2s cubic-bezier(0.16,1,0.3,1); }
+.service-card:hover img { transform:scale(1.08); }
+.service-card .sc-overlay { position:absolute; inset:0; background:rgba(26,24,24,0.5); transition:background 0.5s ease; }
+.service-card:hover .sc-overlay { background:rgba(26,24,24,0.3); }
+.service-card .sc-content { position:absolute; bottom:0; left:0; right:0; padding:48px; z-index:3; }
+.service-card .sc-num { font-size:12px; font-weight:600; letter-spacing:0.15em; color:rgba(255,255,255,0.6); margin-bottom:16px; }
+.service-card .sc-title { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,3vw,40px); font-weight:400; color:#fff; line-height:1.1; margin-bottom:12px; }
+.service-card .sc-desc { font-size:14px; color:rgba(255,255,255,0.7); line-height:1.6; max-width:90%; }
+.service-card .sc-cta { 
+  display:inline-flex; align-items:center; gap:8px; margin-top:24px;
+  font-size:13px; font-weight:600; color:#fff; text-decoration:none; letter-spacing:0.05em;
+  opacity:0; transform:translateY(12px); transition:all 0.4s ease 0.1s;
+}
+.service-card:hover .sc-cta { opacity:1; transform:translateY(0); }
+.section-portfolio { position:relative; background:var(--bg); }
+.portfolio-header { padding:120px 48px 60px; display:flex; justify-content:space-between; align-items:flex-end; }
+.portfolio-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--terracotta); margin-bottom:20px; }
+.portfolio-headline { font-family:'Cormorant Garamond',serif; font-size:clamp(40px,5vw,72px); font-weight:300; line-height:1; }
+.portfolio-cta { padding:14px 32px; border-radius:100px; background:var(--terracotta); color:#fff; text-decoration:none; font-size:13px; font-weight:600; transition:transform 0.3s ease, box-shadow 0.3s ease; }
+.portfolio-cta:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(155,93,58,0.3); }
+.portfolio-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:0 48px 120px; }
+.portfolio-item { position:relative; border-radius:20px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; }
+.portfolio-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.portfolio-item:hover img { transform:scale(1.05); }
+.portfolio-item .pi-overlay { 
+  position:absolute; inset:0; background:linear-gradient(to top, rgba(26,24,24,0.75), transparent 50%);
+  opacity:0; transition:opacity 0.4s ease;
+}
+.portfolio-item:hover .pi-overlay { opacity:1; }
+.portfolio-item .pi-tag { 
+  position:absolute; top:20px; left:20px; padding:8px 16px; border-radius:100px;
+  background:rgba(255,255,255,0.9); backdrop-filter:blur(10px);
+  font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink);
+}
+.portfolio-item .pi-content { 
+  position:absolute; bottom:0; left:0; right:0; padding:24px 28px;
+  transform:translateY(16px); opacity:0; transition:all 0.4s ease;
+}
+.portfolio-item:hover .pi-content { transform:translateY(0); opacity:1; }
+.portfolio-item .pi-title { color:#fff; font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:400; margin-bottom:4px; }
+.portfolio-item .pi-location { color:rgba(255,255,255,0.7); font-size:13px; }
+.section-ba { position:relative; background:var(--ink); color:#fff; min-height:80vh; display:flex; align-items:center; justify-content:center; z-index:3; }
+.ba-inner { text-align:center; padding:120px 48px; max-width:1200px; }
+.ba-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--terracotta); margin-bottom:24px; }
+.ba-headline { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,56px); font-weight:300; margin-bottom:64px; }
+.ba-slider-wrap { 
+  position:relative; width:900px; max-width:90vw; height:520px; margin:0 auto;
+  border-radius:24px; overflow:hidden; cursor:ew-resize; box-shadow:0 40px 100px rgba(0,0,0,0.5);
+}
+.ba-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.ba-overlay { position:absolute; inset:0; width:50%; overflow:hidden; border-right:3px solid #fff; }
+.ba-handle { 
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); 
+  width:56px; height:56px; background:#fff; border-radius:50%; z-index:10;
+  display:flex; align-items:center; justify-content:center; cursor:ew-resize;
+  box-shadow:0 8px 40px rgba(0,0,0,0.4);
+}
+.ba-label { position:absolute; bottom:20px; padding:8px 18px; border-radius:100px; font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+.ba-label.before { left:20px; background:rgba(0,0,0,0.6); color:#fff; }
+.ba-label.after { right:20px; background:var(--terracotta); color:#fff; }
+.section-testimonials { position:relative; background:var(--bg); padding:120px 48px; }
+.testimonials-grid { display:grid; grid-template-columns:1fr 2fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto; }
+.testimonials-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--terracotta); margin-bottom:20px; }
+.testimonials-headline { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,56px); font-weight:300; line-height:1; margin-bottom:24px; }
+.testimonial-text { font-family:'Cormorant Garamond',serif; font-size:clamp(22px,2.5vw,32px); font-weight:300; font-style:italic; line-height:1.4; color:var(--ink-soft); margin-bottom:32px; }
+.testimonial-author { font-size:14px; font-weight:600; color:var(--ink); }
+.testimonial-author span { display:block; font-weight:400; font-size:13px; color:var(--ink-soft); margin-top:4px; }
+.testimonials-image { position:relative; border-radius:24px; overflow:hidden; aspect-ratio:3/4; }
+.testimonials-image img { width:100%; height:100%; object-fit:cover; }
+.testimonial-nav { display:flex; gap:16px; margin-top:32px; }
+.testimonial-nav button {
+  width:48px; height:48px; border-radius:50%; border:1px solid var(--ink-soft);
+  background:transparent; color:var(--ink); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.3s ease, color 0.3s ease;
+}
+.testimonial-nav button:hover { background:var(--ink); color:#fff; }
+.section-logos { position:relative; background:var(--sand); padding:80px 0; overflow:hidden; }
+.logos-track { display:flex; animation:scrollLogos 30s linear infinite; width:max-content; }
+.logos-track:hover { animation-play-state:paused; }
+.logos-track .logos-item {
+  padding:20px 48px; font-size:13px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--ink-soft); opacity:0.5; white-space:nowrap;
+  transition:opacity 0.3s, color 0.3s;
+}
+.logos-track .logos-item:hover { opacity:1; color:var(--terracotta); }
+@keyframes scrollLogos { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+.section-contact { position:relative; background:var(--sand); z-index:3; }
+.contact-inner { display:grid; grid-template-columns:1fr 1fr; min-height:90vh; }
+.contact-image { position:relative; overflow:hidden; }
+.contact-image img { width:100%; height:100%; object-fit:cover; }
+.contact-form { padding:100px 64px; display:flex; flex-direction:column; justify-content:center; }
+.contact-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--terracotta); margin-bottom:20px; }
+.contact-headline { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,4vw,56px); font-weight:300; line-height:1; margin-bottom:48px; }
+.form-group { margin-bottom:24px; }
+.form-group label { display:block; font-size:13px; font-weight:600; margin-bottom:8px; color:var(--ink-soft); }
+.form-group input, .form-group select, .form-group textarea {
+  width:100%; padding:16px 20px; border-radius:12px; border:1px solid rgba(26,24,24,0.1);
+  background:var(--white); font-family:'Inter',sans-serif; font-size:15px; color:var(--ink);
+  transition:border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline:none; border-color:var(--terracotta); box-shadow:0 0 0 4px var(--terracotta-light);
+}
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.form-group textarea { min-height:120px; resize:vertical; }
+.form-submit {
+  padding:18px 40px; border-radius:100px; background:var(--terracotta); color:#fff;
+  border:none; font-size:14px; font-weight:700; letter-spacing:0.02em; cursor:pointer;
+  transition:transform 0.3s ease, box-shadow 0.3s ease; width:100%;
+}
+.form-submit:hover { transform:translateY(-3px); box-shadow:0 20px 50px rgba(155,93,58,0.3); }
+.form-gdpr { display:flex; align-items:flex-start; gap:12px; margin-top:24px; }
+.form-gdpr input { flex-shrink:0; width:20px; height:20px; accent-color:var(--terracotta); }
+.form-gdpr label { font-size:13px; color:var(--ink-soft); line-height:1.5; }
+.footer { background:var(--ink); color:#fff; padding:80px 48px 40px; position:relative; z-index:3; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; max-width:1200px; margin:0 auto; }
+.footer-brand { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:400; margin-bottom:16px; }
+.footer-brand span { font-weight:300; font-size:12px; letter-spacing:0.2em; text-transform:uppercase; opacity:0.6; margin-left:10px; }
+.footer-desc { font-size:14px; color:rgba(255,255,255,0.5); line-height:1.7; max-width:300px; }
+.footer-contact p { font-size:14px; color:rgba(255,255,255,0.5); margin-bottom:8px; }
+.footer-contact a { color:#fff; text-decoration:none; transition:color 0.3s ease; }
+.footer-contact a:hover { color:var(--terracotta); }
+.footer-heading { font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:20px; }
+.footer-links a { display:block; font-size:14px; color:rgba(255,255,255,0.5); text-decoration:none; margin-bottom:12px; transition:color 0.3s ease; }
+.footer-links a:hover { color:#fff; }
+.footer-bottom { margin-top:60px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.08);
+  display:flex; justify-content:space-between; font-size:12px; color:rgba(255,255,255,0.3);
+}
+.mobile-cta {
+  position:fixed; bottom:0; left:0; right:0; z-index:90;
+  background:#fff; padding:14px 16px calc(14px + env(safe-area-inset-bottom)); 
+  box-shadow:0 -4px 24px rgba(0,0,0,0.08); display:none; gap:12px;
+}
+.mobile-cta a { 
+  flex:1; padding:14px 20px; border-radius:100px; background:var(--terracotta); color:#fff;
+  text-decoration:none; text-align:center; font-size:13px; font-weight:700; 
+  transition:transform 0.2s;
+}
+.mobile-cta a:first-child { background:var(--ink); }
+.mobile-cta a:active { transform:scale(0.97); }
+.mobile-nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:8px; }
+.mobile-nav-toggle span { display:block; width:24px; height:2px; background:var(--ink); margin:6px 0; transition:0.3s; }
+.mobile-nav { position:fixed; inset:0; background:var(--bg); z-index:99; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px; opacity:0; pointer-events:none; transition:opacity 0.4s; }
+.mobile-nav.open { opacity:1; pointer-events:auto; }
+.mobile-nav a { font-family:'Cormorant Garamond',serif; font-size:32px; color:var(--ink); text-decoration:none; }
+@media (max-width:768px) {
+  .nav { padding:16px 24px; }
+  .nav.scrolled { padding:12px 24px; }
+  .nav-links, .hero-cta-secondary, .hero-info-bar { display:none; }
+  .mobile-nav-toggle { display:block; }
+  .hero-headline { font-size:clamp(36px,10vw,56px); }
+  .hero-content { padding:0 24px 20vh; }
+  .about-inner { grid-template-columns:1fr; }
+  .about-text { padding:60px 24px; }
+  .services-grid { grid-template-columns:1fr; }
+  .service-card { height:50vh; min-height:350px; }
+  .portfolio-grid { grid-template-columns:1fr; padding:0 16px 80px; }
+  .portfolio-header { padding:60px 24px 40px; flex-direction:column; align-items:flex-start; gap:20px; }
+  .about-stats { flex-wrap:wrap; gap:24px; }
+  .testimonials-grid { grid-template-columns:1fr; }
+  .testimonials-image { display:none; }
+  .contact-inner { grid-template-columns:1fr; }
+  .contact-form { padding:60px 24px; }
+  .contact-image { display:none; }
+  .mobile-cta { display:flex; }
+  .footer-grid { grid-template-columns:1fr; gap:40px; }
+  .footer { padding:60px 24px 30px; }
+  .ba-slider-wrap { height:60vw; }
+  .section-testimonials { padding:60px 24px; }
+}
 </style>
 </head>
-
 <body>
+<div class="custom-cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+<canvas id="grain-canvas"></canvas>
 
-<!-- CURSOR GLOW -->
-<div class="cursor-glow" id="cursorGlow"></div>
-
-<!-- ============ NAV ============ -->
-<header id="mainNav" class="fixed top-0 left-0 right-0 z-[100] transition-all duration-500">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="flex items-center justify-between py-5">
-      <a href="#hero" class="flex items-baseline gap-2 group">
-        <span class="display text-2xl tracking-tight text-white group-hover:text-[var(--terracotta)] transition-colors">Toptuinen</span>
-        <span class="text-[10px] font-light opacity-40 hidden sm:inline tracking-[0.15em]">G & S</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-9 text-[13px] font-medium tracking-wide">
-        <a href="diensten.html" class="nav-link text-white/80 hover:text-white transition">Diensten</a>
-        <a href="realisaties.html" class="nav-link text-white/80 hover:text-white transition">Realisaties</a>
-        <a href="over.html" class="nav-link text-white/80 hover:text-white transition">Over ons</a>
-        <a href="contact.html" class="px-6 py-2.5 rounded-full border border-white/20 hover:border-white/50 text-white/90 hover:text-white text-[13px] font-medium transition">Contact</a>
-      </nav>
-      <button id="mobileMenuBtn" class="md:hidden text-white p-2" aria-label="Menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
-    </div>
+<!--- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">Toptuinen <span>G & S</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="#services">Diensten</a>
+    <a href="#portfolio">Realisaties</a>
+    <a href="#about">Over ons</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:+32499105235" class="nav-cta">Bel ons</a>
   </div>
-</header>
-
-<!-- Mobile overlay -->
-<div id="mobileMenu" class="fixed inset-0 z-[99] bg-[var(--ink)]/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-8 text-2xl font-light tracking-wide">
-  <a href="diensten.html" class="mobile-link text-white/70 hover:text-white">Diensten</a>
-  <a href="realisaties.html" class="mobile-link text-white/70 hover:text-white">Realisaties</a>
-  <a href="over.html" class="mobile-link text-white/70 hover:text-white">Over ons</a>
-  <a href="contact.html" class="mobile-link text-[var(--terracotta)]">Contact</a>
-  <button id="mobileClose" class="absolute top-5 right-6 text-white/50 hover:text-white"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="mobile-nav-toggle" id="mobileToggle" aria-label="Menu"><span></span><span></span></button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#services">Diensten</a>
+  <a href="#portfolio">Realisaties</a>
+  <a href="#about">Over ons</a>
+  <a href="#contact">Contact</a>
+  <a href="tel:+32499105235" style="font-family:Inter; font-size:18px; color:var(--terracotta); margin-top:16px;">0499 10 52 35</a>
 </div>
 
-<!-- ============ HERO ============ -->
-<section id="hero" class="relative h-[100dvh] overflow-hidden">
-  <!-- Background with Ken Burns -->
-  <div class="hero-bg" style="background-image:url('img/hero-hageland.jpg')"></div>
+<!-- HERO -->
+<section class="pinned-section" id="heroSection">
+  <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
-
-  <!-- Particle Canvas -->
-  <canvas id="heroCanvas"></canvas>
-
-  <!-- Content -->
-  <div class="relative z-10 h-full flex flex-col justify-end px-6 lg:px-10 pb-16 md:pb-24 max-w-7xl mx-auto">
-    <div class="overflow-hidden">
-      <h1 id="heroTitle" class="display text-[clamp(2.8rem,8vw,7rem)] leading-[0.95] tracking-tight text-white mb-6">
-        <span class="split-line"><span class="split-line-inner">Een tuin die</span></span>
-        <span class="split-line"><span class="split-line-inner ui-serif">blijft nazinderen</span></span>
-      </h1>
-    </div>
-    <p id="heroSub" class="text-white/60 text-lg md:text-xl max-w-xl mb-10 font-light leading-relaxed opacity-0 translate-y-6">
-      Hoveniers G & S, gevestigd te Leuven. Wij ontwerpen, aanleggen en onderhouden tuinen met een focus op duurzaamheid, natuurlijke materialen en tijdloos design. Al meer dan 20 jaar in het Hageland.
-    </p>
-    <div id="heroCta" class="flex flex-wrap gap-4 opacity-0 translate-y-6">
-      <a href="contact.html" class="group inline-flex items-center gap-3 bg-[var(--terracotta)] hover:bg-[#c96a43] text-white px-8 py-4 rounded-full text-sm font-semibold tracking-wide transition-all">
-        <span>Gratis ontwerpscan</span>
-        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="realisaties.html" class="inline-flex items-center gap-2 text-white/80 hover:text-white px-6 py-4 text-sm tracking-wide transition group">
-        <span>Bekijk realisaties</span>
-        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span>Hoveniersbedrijf uit het Hageland</span></div>
+    <h1 class="hero-headline">
+      <span class="line"><span>Een tuin die bij</span></span>
+      <span class="line"><span><em>u</em> past.</span></span>
+    </h1>
+    <div class="hero-sub"><span>Tuinaanleg, onderhoud en renovatie in Leuven, Kessel-Lo, Wijgmaal en het Hageland. Al meer dan 25 jaar uw vertrouwde partner.</span></div>
+    <div class="hero-cta-row">
+      <a href="#contact" class="hero-cta-primary">Gratis offerte <span style="display:inline-flex;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></a>
+      <a href="#portfolio" class="hero-cta-secondary">Bekijk realisaties</a>
     </div>
   </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-50">
-    <span class="text-[10px] tracking-[0.3em] text-white/50 uppercase">Scroll</span>
-    <div class="w-[1px] h-8 bg-gradient-to-b from-white/50 to-transparent"></div>
+  <div class="hero-info-bar">
+    <div class="info-item">Beoordeling <strong><span style="color:var(--terracotta);">★</span> 4.8/5</strong></div>
+    <div class="info-item">Ervaring <strong>25+ jaar</strong></div>
+    <div class="info-item">Regio <strong>Leuven & Hageland</strong></div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="mouse"></div>
   </div>
 </section>
 
-<!-- ============ MARQUEE RIBBON ============ -->
-<div class="bg-[var(--terracotta)] py-3.5 overflow-hidden">
-  <div class="marquee-track">
-    <span class="flex items-center gap-12 px-4 text-[13px] font-medium tracking-[0.15em] text-white/90 uppercase whitespace-nowrap">
-      <span>4.8/5 op Google</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>22 klanten uit het Hageland</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Leuven · Hageland · Bertem · Kessel-Lo</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Sedert 2003</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Erkend hovenier</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Groenblauwe zone erkenning</span>
-    </span>
-    <span class="flex items-center gap-12 px-4 text-[13px] font-medium tracking-[0.15em] text-white/90 uppercase whitespace-nowrap">
-      <span>4.8/5 op Google</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>22 klanten uit het Hageland</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Leuven · Hageland · Bertem · Kessel-Lo</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Sedert 2003</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Erkend hovenier</span>
-      <svg class="w-1.5 h-1.5" fill="white" viewBox="0 0 4 4"><circle cx="2" cy="2" r="2"/></svg>
-      <span>Groenblauwe zone erkenning</span>
-    </span>
-  </div>
-</div>
-
-<!-- ============ BEFORE / AFTER (SCROLL-PINNED) ============ -->
-<section class="ba-section bg-[var(--ink)]">
-  <div class="ba-sticky">
-    <div class="px-6 w-full flex flex-col items-center">
-      <div class="text-center mb-8 md:mb-12">
-        <p class="text-[var(--terracotta)] text-xs tracking-[0.25em] uppercase font-semibold mb-3">Transformatie</p>
-        <h2 class="display text-4xl md:text-6xl text-white">Voor en na</h2>
-      </div>
-      <div class="ba-container" id="baContainer">
-        <img src="img/ba-before.jpg" class="ba-img" alt="Voor - onverzorgde tuin" loading="lazy">
-        <img src="img/ba-after.jpg" class="ba-img ba-after" id="baAfter" alt="Na - aangelegde tuin" loading="lazy">
-        <div class="absolute bottom-6 left-6 z-10">
-          <span class="bg-black/60 text-white text-xs font-semibold px-4 py-2 rounded-full tracking-wider">VOOR</span>
-        </div>
-        <div class="absolute bottom-6 right-6 z-10">
-          <span class="bg-[var(--terracotta)] text-white text-xs font-semibold px-4 py-2 rounded-full tracking-wider">NA</span>
-        </div>
-      </div>
-      <p class="mt-6 text-white/40 text-sm">Tweede fase opwaardering in Veltem-Beisem · scroll om te vergelijken</p>
+<!-- OVER ONS -->
+<section class="section-about" id="about">
+  <div class="about-inner">
+    <div class="about-image-wrap">
+      <div class="image-reveal" id="aboutReveal"></div>
+      <img src="img/garden-aerial.jpg" alt="Tuinaanleg in het Hageland" loading="lazy">
     </div>
-  </div>
-</section>
-
-<!-- ============ SERVICES ============ -->
-<section id="diensten" class="bg-[var(--cream)] py-32 md:py-40 overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-end mb-20 md:mb-28">
-      <div>
-        <p class="text-[var(--terracotta)] text-xs tracking-[0.25em] uppercase font-semibold mb-4">Onze diensten</p>
-        <h2 class="display text-5xl md:text-7xl text-[var(--ink)] leading-[1]">
-          Wat we<br><span class="ui-serif text-[var(--terracotta)]">voor u doen</span>
-        </h2>
-      </div>
-      <p class="text-[var(--stone)] text-lg leading-relaxed font-light">
-        Van eerste schets tot jarenlang onderhoud. We combineren vakmanschap met ecologisch inzicht. Elke tuin vertelt een verhaal — wij helpen uw verhaal te schrijven.
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Card 1: Aanleg -->
-      <div class="service-card group lg:translate-y-0">
-        <div class="service-card-inner">
-          <div class="service-img-wrap aspect-[4/3] mb-6">
-            <img src="img/service-aanleg.jpg" alt="Tuinaanleg" class="w-full h-full object-cover" loading="lazy">
-          </div>
-          <div class="flex items-start gap-4">
-            <span class="text-[var(--terracotta)] text-sm font-semibold tracking-wider mt-1">01</span>
-            <div>
-              <h3 class="display text-2xl text-[var(--ink)] mb-2 group-hover:text-[var(--terracotta)] transition-colors">Tuinaanleg</h3>
-              <p class="text-[var(--stone)] text-sm leading-relaxed">
-                Terrassen in natuursteen of keramiek, houten schermen, waterpartijen, verlichting en beplanting. Alles wordt afgestemd op het specifieke karakter van uw grondstuk.
-              </p>
-            </div>
-          </div>
+    <div class="about-text">
+      <div class="about-eyebrow">Over ons</div>
+      <h2 class="about-headline font-display">Met passie en vakmanschap creëren we tuinen waar u van droomt.</h2>
+      <p class="about-body">Toptuinen G & S, opgericht door Gert en Steven, is al meer dan twee decennia dé referentie voor tuinaanleg in het Hageland. Van een gezellige stadstuin tot uitgestrekte landelijke tuinen — elk project benaderen we met dezelfde zorg en precisie.</p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-num font-display">25+</div>
+          <div class="stat-label">Jaar ervaring</div>
         </div>
-      </div>
-
-      <!-- Card 2: Onderhoud -->
-      <div class="service-card group lg:translate-y-12">
-        <div class="service-card-inner">
-          <div class="service-img-wrap aspect-[4/3] mb-6">
-            <img src="img/service-onderhoud.jpg" alt="Tuinonderhoud" class="w-full h-full object-cover" loading="lazy">
-          </div>
-          <div class="flex items-start gap-4">
-            <span class="text-[var(--terracotta)] text-sm font-semibold tracking-wider mt-1">02</span>
-            <div>
-              <h3 class="display text-2xl text-[var(--ink)] mb-2 group-hover:text-[var(--terracotta)] transition-colors">Onderhoud</h3>
-              <p class="text-[var(--stone)] text-sm leading-relaxed">
-                Seizoensgebonden snoei, bemesting, onkruidbeheersing en gazonverzorging. Vaste afspraken, flexibele planning. Zo blijft uw tuin het hele jaar door in topconditie.
-              </p>
-            </div>
-          </div>
+        <div class="stat">
+          <div class="stat-num font-display">780+</div>
+          <div class="stat-label">Projecten</div>
         </div>
-      </div>
-
-      <!-- Card 3: Renovatie -->
-      <div class="service-card group lg:translate-y-24">
-        <div class="service-card-inner">
-          <div class="service-img-wrap aspect-[4/3] mb-6">
-            <img src="img/service-renovatie.jpg" alt="Tuinrenovatie" class="w-full h-full object-cover" loading="lazy">
-          </div>
-          <div class="flex items-start gap-4">
-            <span class="text-[var(--terracotta)] text-sm font-semibold tracking-wider mt-1">03</span>
-            <div>
-              <h3 class="display text-2xl text-[var(--ink)] mb-2 group-hover:text-[var(--terracotta)] transition-colors">Renovatie</h3>
-              <p class="text-[var(--stone)] text-sm leading-relaxed">
-                Bestaande tuinen een tweede leven geven. We optimaliseren de indeling, vervangen verouderde beplanting en brengen de tuin terug naar de hedendaagse standaarden.
-              </p>
-            </div>
-          </div>
+        <div class="stat">
+          <div class="stat-num font-display">4.8</div>
+          <div class="stat-label">Google-score</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PROCESS (SCROLL-TRIGGERED) ============ -->
-<section class="bg-[var(--ink)] py-32 md:py-40 overflow-hidden">
-  <div class="max-w-4xl mx-auto px-6 lg:px-10">
-    <div class="text-center mb-20 md:mb-28">
-      <p class="text-[var(--terracotta)] text-xs tracking-[0.25em] uppercase font-semibold mb-4">Onze werkwijze</p>
-      <h2 class="display text-5xl md:text-6xl text-white">Stap voor stap<br><span class="ui-serif">naar uw droomtuin</span></h2>
+<!-- DIENSTEN -->
+<section class="section-services" id="services">
+  <div class="services-header">
+    <div class="services-eyebrow">Onze diensten</div>
+    <h2 class="services-headline font-display">Alles voor uw tuin.</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <img src="img/modern-terrace.jpg" alt="Tuinaanleg" loading="lazy">
+      <div class="sc-overlay"></div>
+      <div class="sc-content">
+        <div class="sc-num">01</div>
+        <div class="sc-title font-display">Tuinaanleg</div>
+        <div class="sc-desc">Van ontwerp tot realisatie: uw droomtuin, vakbekwaam aangelegd.</div>
+        <a href="#contact" class="sc-cta">Plan adviesgesprek <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
     </div>
-
-    <div class="relative">
-      <svg class="step-line-svg hidden md:block" viewBox="0 0 2 100" preserveAspectRatio="none">
-        <line class="step-line-path" id="stepPath" x1="1" y1="0" x2="1" y2="100" />
-      </svg>
-
-      <div class="space-y-16 md:space-y-24">
-        <!-- Step 1 -->
-        <div class="process-step grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-12 items-center">
-          <div class="text-right hidden md:block">
-            <h3 class="display text-2xl text-white mb-2">Gratis adviesgesprek</h3>
-            <p class="text-white/40 text-sm leading-relaxed">We luisteren naar uw wensen, analyseren het terrein en bespreken budget en tijdlijn.</p>
-          </div>
-          <div class="flex md:block justify-start">
-            <div class="step-node" data-step="1">1</div>
-          </div>
-          <div class="md:hidden">
-            <h3 class="display text-2xl text-white mb-2">Gratis adviesgesprek</h3>
-            <p class="text-white/40 text-sm leading-relaxed">We luisteren naar uw wensen, analyseren het terrein en bespreken budget en tijdlijn.</p>
-          </div>
-          <div class="hidden md:block"></div>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="process-step grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-12 items-center">
-          <div class="md:text-right md:hidden">
-            <h3 class="display text-2xl text-white mb-2">Ontwerp & offerte</h3>
-            <p class="text-white/40 text-sm leading-relaxed">Een visueel ontwerp met plantenplan en een gedetailleerde prijsopgave zonder kleine lettertjes.</p>
-          </div>
-          <div class="flex md:block justify-start md:col-start-2">
-            <div class="step-node" data-step="2">2</div>
-          </div>
-          <div class="hidden md:block">
-            <h3 class="display text-2xl text-white mb-2">Ontwerp & offerte</h3>
-            <p class="text-white/40 text-sm leading-relaxed">Een visueel ontwerp met plantenplan en een gedetailleerde prijsopgave zonder kleine lettertjes.</p>
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="process-step grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-12 items-center">
-          <div class="text-right hidden md:block">
-            <h3 class="display text-2xl text-white mb-2">Aanleg door ons team</h3>
-            <p class="text-white/40 text-sm leading-relaxed">Vakkundige hoveniers voeren het werk uit met oog voor detail en respect voor uw omgeving.</p>
-          </div>
-          <div class="flex md:block justify-start">
-            <div class="step-node" data-step="3">3</div>
-          </div>
-          <div class="md:hidden">
-            <h3 class="display text-2xl text-white mb-2">Aanleg door ons team</h3>
-            <p class="text-white/40 text-sm leading-relaxed">Vakkundige hoveniers voeren het werk uit met oog voor detail en respect voor uw omgeving.</p>
-          </div>
-          <div class="hidden md:block"></div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="process-step grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-12 items-center">
-          <div class="md:text-right md:hidden">
-            <h3 class="display text-2xl text-white mb-2">Oplevering & garantie</h3>
-            <p class="text-white/40 text-sm leading-relaxed">We lopen samen de tuin door en geven 2 jaar garantie op alle aangelegde werkzaamheden.</p>
-          </div>
-          <div class="flex md:block justify-start md:col-start-2">
-            <div class="step-node" data-step="4">4</div>
-          </div>
-          <div class="hidden md:block">
-            <h3 class="display text-2xl text-white mb-2">Oplevering & garantie</h3>
-            <p class="text-white/40 text-sm leading-relaxed">We lopen samen de tuin door en geven 2 jaar garantie op alle aangelegde werkzaamheden.</p>
-          </div>
-        </div>
+    <div class="service-card">
+      <img src="img/hedge-maintain.jpg" alt="Tuinonderhoud" loading="lazy">
+      <div class="sc-overlay"></div>
+      <div class="sc-content">
+        <div class="sc-num">02</div>
+        <div class="sc-title font-display">Tuinonderhoud</div>
+        <div class="sc-desc">Jaarrond verzorging om uw tuin in optimale conditie te houden.</div>
+        <a href="#contact" class="sc-cta">Start onderhoud <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+    <div class="service-card">
+      <img src="img/stone-path.jpg" alt="Tuinrenovatie" loading="lazy">
+      <div class="sc-overlay"></div>
+      <div class="sc-content">
+        <div class="sc-num">03</div>
+        <div class="sc-title font-display">Tuinrenovatie</div>
+        <div class="sc-desc">Elke tuin verdient een tweede kans. Laat hem weer stralen.</div>
+        <a href="#contact" class="sc-cta">Vraag voorstel aan <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PORTFOLIO ============ -->
-<section id="realisaties" class="bg-[var(--cream)] py-32 md:py-40 overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-6">
-      <div>
-        <p class="text-[var(--terracotta)] text-xs tracking-[0.25em] uppercase font-semibold mb-4">Gerealiseerd</p>
-        <h2 class="display text-5xl md:text-6xl text-[var(--ink)]">Recent werk<br><span class="ui-serif text-[var(--stone)]">uit het Hageland</span></h2>
-      </div>
-      <p class="text-[var(--stone)] text-sm max-w-sm leading-relaxed">
-        Elk project begint met een gesprek. Deze tuinen zijn het resultaat van nauwe samenwerking met de eigenaar.
-      </p>
+<!-- REALISATIES -->
+<section class="section-portfolio" id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="portfolio-eyebrow">Geselecteerde realisaties</div>
+      <h2 class="portfolio-headline font-display">Elke tuin vertelt een verhaal.</h2>
     </div>
-
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
-      <div class="portfolio-item aspect-[3/4] md:col-span-1 md:row-span-2">
-        <img src="img/portfolio1.jpg" alt="Wijgmaal tuin met pergola" class="w-full h-full object-cover" loading="lazy">
-        <div class="portfolio-overlay">
-          <div class="portfolio-meta">
-            <p class="text-[var(--terracotta)] text-xs font-semibold tracking-wider mb-1">WIJGMAAL</p>
-            <h3 class="display text-xl text-white">Landelijke tuin met pergola</h3>
-          </div>
-        </div>
+    <a href="realisaties.html" class="portfolio-cta">Bekijk alles</a>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-item">
+      <img src="img/pergola.jpg" alt="Wijgmaal terrasproject" loading="lazy">
+      <span class="pi-tag">Tuinaanleg</span>
+      <div class="pi-overlay"></div>
+      <div class="pi-content">
+        <div class="pi-title font-display">Terras Wijgmaal</div>
+        <div class="pi-location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Wijgmaal</div>
       </div>
-      <div class="portfolio-item aspect-[3/4]">
-        <img src="img/portfolio3.jpg" alt="Kessel-Lo waterpartij" class="w-full h-full object-cover" loading="lazy">
-        <div class="portfolio-overlay">
-          <div class="portfolio-meta">
-            <p class="text-[var(--terracotta)] text-xs font-semibold tracking-wider mb-1">KESSEL-LO</p>
-            <h3 class="display text-lg text-white">Waterpartij met waterval</h3>
-          </div>
-        </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="img/pool.jpg" alt="Kessel-Lo zwemvijver" loading="lazy">
+      <span class="pi-tag">Renovatie</span>
+      <div class="pi-overlay"></div>
+      <div class="pi-content">
+        <div class="pi-title font-display">Zwemvijver Kessel-Lo</div>
+        <div class="pi-location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Kessel-Lo</div>
       </div>
-      <div class="portfolio-item aspect-[3/4]">
-        <img src="img/portfolio2.jpg" alt="Bertem zwemvijver" class="w-full h-full object-cover" loading="lazy">
-        <div class="portfolio-overlay">
-          <div class="portfolio-meta">
-            <p class="text-[var(--terracotta)] text-xs font-semibold tracking-wider mb-1">BERTEM</p>
-            <h3 class="display text-lg text-white">Zwemvijvertuin</h3>
-          </div>
-        </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="img/waterfall.jpg" alt="Bertem moderne tuin" loading="lazy">
+      <span class="pi-tag">Tuinaanleg</span>
+      <div class="pi-overlay"></div>
+      <div class="pi-content">
+        <div class="pi-title font-display">Landelijke tuin Bertem</div>
+        <div class="pi-location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Bertem</div>
       </div>
-      <div class="portfolio-item aspect-[4/3] md:col-span-2">
-        <img src="img/portfolio4.jpg" alt="Leuven dakterras" class="w-full h-full object-cover" loading="lazy">
-        <div class="portfolio-overlay">
-          <div class="portfolio-meta">
-            <p class="text-[var(--terracotta)] text-xs font-semibold tracking-wider mb-1">LEUVEN CENTRUM</p>
-            <h3 class="display text-xl text-white">Stadstuin met outdoor kitchen</h3>
-          </div>
-        </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="img/modern-deck.jpg" alt="Leuven dakterras" loading="lazy">
+      <span class="pi-tag">Renovatie</span>
+      <div class="pi-overlay"></div>
+      <div class="pi-content">
+        <div class="pi-title font-display">Dakterras Leuven</div>
+        <div class="pi-location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Leuven</div>
       </div>
-      <div class="portfolio-item aspect-[3/4] md:col-span-1 md:row-span-2">
-        <img src="img/portfolio5.jpg" alt="Veltem moderne tuin" class="w-full h-full object-cover" loading="lazy">
-        <div class="portfolio-overlay">
-          <div class="portfolio-meta">
-            <p class="text-[var(--terracotta)] text-xs font-semibold tracking-wider mb-1">VELTEM-BEISEM</p>
-            <h3 class="display text-xl text-white">Moderne tuinverlichting</h3>
-          </div>
-        </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="img/terrace-light.jpg" alt="Veltem-Beisem terras" loading="lazy">
+      <span class="pi-tag">Tuinaanleg</span>
+      <div class="pi-overlay"></div>
+      <div class="pi-content">
+        <div class="pi-title font-display">Verlichte avontuin Veltem</div>
+        <div class="pi-location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Veltem-Beisem</div>
       </div>
-      <div class="portfolio-item aspect-[3/4] md:col-span-1">
-        <img src="img/portfolio6.jpg" alt="Kessel-Lo wilde natuurtuin" class="w-full h-full object-cover" loading="lazy">
-        <div class="portfolio-overlay">
-          <div class="portfolio-meta">
-            <p class="text-[var(--terracotta)] text-xs font-semibold tracking-wider mb-1">KESSEL-LO</p>
-            <h3 class="display text-lg text-white">Wilde natuurtuin</h3>
-          </div>
-        </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="img/grass-lawn.jpg" alt="Leuven onderhoud" loading="lazy">
+      <span class="pi-tag">Onderhoud</span>
+      <div class="pi-overlay"></div>
+      <div class="pi-content">
+        <div class="pi-title font-display">Tuinonderhoud Leuven</div>
+        <div class="pi-location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Leuven</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ TESTIMONIAL (PINNED) ============ -->
-<section class="testimonial-section bg-[var(--ink)]">
-  <div class="testimonial-sticky">
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 w-full grid lg:grid-cols-2 gap-12 items-center">
-      <div class="relative">
-        <div class="aspect-[4/5] rounded-[32px] overflow-hidden">
-          <img src="img/testimonial.jpg" alt="Familie met tuin" class="w-full h-full object-cover" loading="lazy">
-        </div>
-        <div class="absolute -bottom-6 -right-6 bg-[var(--terracotta)] rounded-2xl p-6 max-w-[200px] hidden lg:block">
-          <p class="text-white text-3xl font-bold display">4.8</p>
-          <div class="flex gap-1 my-2">
-            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          </div>
-          <p class="text-white/70 text-xs">22 Google Reviews</p>
-        </div>
+<!-- BEFORE/AFTER -->
+<section class="section-ba" id="beforeafter">
+  <div class="ba-inner">
+    <div class="ba-eyebrow">Transformatie</div>
+    <h2 class="ba-headline font-display">Van verwaarloosd naar verbluffend.</h2>
+    <div class="ba-slider-wrap" id="baSlider">
+      <img src="img/before-overgrown.jpg" class="ba-img" alt="Voor de renovatie">
+      <div class="ba-overlay" id="baOverlay">
+        <img src="img/after-garden.jpg" class="ba-img" alt="Na de renovatie" style="width:200%;">
       </div>
-      <div>
-        <svg class="w-10 h-10 text-[var(--terracotta)] mb-8 opacity-50" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
-        <blockquote class="display text-2xl md:text-4xl text-white leading-snug mb-8" id="testimonialQuote">
-          De samenwerking was prettig, het resultaat fenomenaal. We genieten elke dag van onze Scandinavische tuin in Veltem-Beisem.
-        </blockquote>
-        <div class="flex items-center gap-4">
-          <img src="img/team1.jpg" alt="Lucas Devos" class="w-12 h-12 rounded-full object-cover grayscale">
-          <div>
-            <p class="text-white font-medium">Lucas Devos</p>
-            <p class="text-white/40 text-sm">Veltem-Beisem</p>
-          </div>
-        </div>
+      <div class="ba-handle" id="baHandle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a1818" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a1818" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
       </div>
+      <span class="ba-label before">Voor</span>
+      <span class="ba-label after">Na</span>
     </div>
   </div>
 </section>
 
-<!-- ============ ABOUT / OVER ONS ============ -->
-<section id="over" class="bg-[var(--cream)] py-32 md:py-40 overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-      <div class="order-2 lg:order-1">
-        <p class="text-[var(--terracotta)] text-xs tracking-[0.25em] uppercase font-semibold mb-4">Over ons</p>
-        <h2 class="display text-5xl md:text-6xl text-[var(--ink)] mb-8">
-          Met passie &<br><span class="ui-serif">precisie</span>
-        </h2>
-        <p class="text-[var(--stone)] text-lg leading-relaxed mb-6 font-light">
-          Al meer dan 20 jaar is Toptuinen G & S het adres in Leuven en omstreken voor wie kwaliteit, service en een persoonlijke aanpak vooropstelt.
-        </p>
-        <p class="text-[var(--stone)] text-base leading-relaxed mb-8">
-          Onze 5-koppige ploeg bestaat uit vakidioten — hoveniers die hun vak als ambacht zien. Geen externe onderaannemers, geen studentenploegen. Elk project wordt van begin tot eind door onszelf uitgevoerd.
-        </p>
-        
-        <div class="grid grid-cols-3 gap-6 mb-10">
-          <div class="border-t-2 border-[var(--terracotta)] pt-4">
-            <p class="display text-3xl text-[var(--ink)]">20+</p>
-            <p class="text-[var(--stone)] text-xs uppercase tracking-wider mt-1">Jaar ervaring</p>
-          </div>
-          <div class="border-t-2 border-[var(--terracotta)] pt-4">
-            <p class="display text-3xl text-[var(--ink)]">350+</p>
-            <p class="text-[var(--stone)] text-xs uppercase tracking-wider mt-1">Realisaties</p>
-          </div>
-          <div class="border-t-2 border-[var(--terracotta)] pt-4">
-            <p class="display text-3xl text-[var(--ink)]">4.8</p>
-            <p class="text-[var(--stone)] text-xs uppercase tracking-wider mt-1">Google score</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 text-sm">
-          <div class="flex items-center gap-3 text-[var(--ink)]">
-            <div class="w-2 h-2 rounded-full bg-[var(--terracotta)]"></div>
-            BTW BE 0458.234.567
-          </div>
-          <div class="flex items-center gap-3 text-[var(--ink)]">
-            <div class="w-2 h-2 rounded-full bg-[var(--terracotta)]"></div>
-            Erkend hovenier Erasmus+
-          </div>
-          <div class="flex items-center gap-3 text-[var(--ink)]">
-            <div class="w-2 h-2 rounded-full bg-[var(--terracotta)]"></div>
-            Groenblauwe zone
-          </div>
-          <div class="flex items-center gap-3 text-[var(--ink)]">
-            <div class="w-2 h-2 rounded-full bg-[var(--terracotta)]"></div>
-            Gecertificeerd door VOV
-          </div>
-        </div>
+<!-- TESTIMONIALS -->
+<section class="section-testimonials" id="testimonials">
+  <div class="testimonials-grid">
+    <div>
+      <div class="testimonials-eyebrow">Ervaringen</div>
+      <h2 class="testimonials-headline font-display">Wat onze klanten zeggen.</h2>
+      <div id="testimonialContent">
+        <p class="testimonial-text font-display">"Gert en Steven hebben onze achtertuin volledig getransformeerd. Hun oog voor detail en het vakmanschap zijn ongeëvenaard. We genieten elke dag van onze nieuwe tuin."</p>
+        <div class="testimonial-author">Lotte Mertens<span>Kessel-Lo</span></div>
       </div>
-      <div class="order-1 lg:order-2 relative">
-        <div class="aspect-[4/5] rounded-[32px] overflow-hidden">
-          <img src="img/about-aerial.jpg" alt="Tuin van bovenaf" class="w-full h-full object-cover" loading="lazy">
-        </div>
-        <div class="absolute -bottom-8 -left-8 bg-white rounded-2xl p-6 shadow-xl max-w-[220px] hidden lg:block">
-          <div class="w-12 h-12 rounded-full bg-[var(--terracotta)]/10 flex items-center justify-center mb-3">
-            <svg class="w-6 h-6 text-[var(--terracotta)]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/></svg>
-          </div>
-          <p class="text-[var(--ink)] font-medium text-sm">2 jaar garantie</p>
-          <p class="text-[var(--stone)] text-xs mt-1">Op alle aangelegde werkzaamheden en beplanting</p>
-        </div>
+      <div class="testimonial-nav">
+        <button id="prevTest"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button id="nextTest"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
       </div>
+    </div>
+    <div class="testimonials-image">
+      <img src="img/family-garden.jpg" alt="Familie tuin" loading="lazy">
     </div>
   </div>
 </section>
 
-<!-- ============ CTA ============ -->
-<section id="contact" class="relative bg-[var(--ink)] py-32 md:py-48 overflow-hidden">
-  <canvas id="ctaCanvas"></canvas>
-  <div class="hero-bg opacity-30" style="background-image:url('img/cta-bg.jpg')"></div>
-  <div class="hero-overlay opacity-60"></div>
-  <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-10 text-center">
-    <p class="text-[var(--terracotta)] text-xs tracking-[0.25em] uppercase font-semibold mb-6">Start uw project</p>
-    <h2 class="display text-5xl md:text-7xl text-white mb-8 leading-[1.05]">
-      Klaar voor een tuin<br><span class="ui-serif">om in te verdwalen?</span>
-    </h2>
-    <p class="text-white/50 text-lg mb-12 max-w-lg mx-auto font-light">
-      Vraag een vrijblijvende offerte aan. We komen graag bij u langs in Leuven, Bertem, Veltem of Kessel-Lo.
-    </p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="tel:+32499105235" class="group inline-flex items-center gap-3 bg-[var(--terracotta)] hover:bg-[#c96a43] text-white px-10 py-5 rounded-full text-sm font-semibold tracking-wider transition-all shadow-lg shadow-[var(--terracotta)]/20 hover:shadow-[var(--terracotta)]/40">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
-        <span>0499 10 52 35</span>
-      </a>
-      <a href="mailto:info@toptuinengs.be" class="group inline-flex items-center gap-2 text-white/60 hover:text-white px-6 py-5 text-sm tracking-wide transition border border-white/10 hover:border-white/30 rounded-full">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
-        <span>info@toptuinengs.be</span>
-      </a>
+<!-- LOGO WAGON -->
+<section class="section-logos">
+  <div class="logos-track">
+    <span class="logos-item">BTW BE 0661.553.118</span>
+    <span class="logos-item">Erkend hovenier</span>
+    <span class="logos-item">VCA-gecertificeerd</span>
+    <span class="logos-item">5 sterren op Google</span>
+    <span class="logos-item">25+ jaar ervaring</span>
+    <span class="logos-item">Duurzame materialen</span>
+    <span class="logos-item">Garantie op werk</span>
+    <span class="logos-item">Eigen kwekerij</span>
+    <span class="logos-item">Professioneel advies</span>
+    <span class="logos-item">BTW BE 0661.553.118</span>
+    <span class="logos-item">Erkend hovenier</span>
+    <span class="logos-item">VCA-gecertificeerd</span>
+    <span class="logos-item">5 sterren op Google</span>
+    <span class="logos-item">25+ jaar ervaring</span>
+    <span class="logos-item">Duurzame materialen</span>
+    <span class="logos-item">Garantie op werk</span>
+    <span class="logos-item">Eigen kwekerij</span>
+    <span class="logos-item">Professioneel advies</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section-contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-image">
+      <img src="img/garden-aerial.jpg" alt="Tuinaanleg Hageland" loading="lazy">
+    </div>
+    <div class="contact-form">
+      <div class="contact-eyebrow">Gratis offerte</div>
+      <h2 class="contact-headline font-display">Laten we samenwerken.</h2>
+      <form id="contactForm" action="https://formspree.io/f/mnqevzgg" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Voornaam</label>
+            <input type="text" name="voornaam" required placeholder="Uw voornaam">
+          </div>
+          <div class="form-group">
+            <label>Achternaam</label>
+            <input type="text" name="achternaam" required placeholder="Uw achternaam">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" name="email" required placeholder="uw@email.be">
+          </div>
+          <div class="form-group">
+            <label>Telefoon</label>
+            <input type="tel" name="telefoon" required placeholder="04xx xxx xxx">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Postcode</label>
+            <input type="text" name="postcode" required pattern="[0-9]{4}" placeholder="3000">
+          </div>
+          <div class="form-group">
+            <label>Gemeente</label>
+            <input type="text" name="gemeente" required placeholder="Leuven">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Type tuin</label>
+          <select name="tuin_type" required>
+            <option value="" disabled selected>Kies uw tuinwens</option>
+            <option value="aanleg">Nieuwe tuinaanleg</option>
+            <option value="renovatie">Tuinrenovatie</option>
+            <option value="onderhoud">Periodeel onderhoud</option>
+            <option value="advies">Ontwerp & advies</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Bericht</label>
+          <textarea name="bericht" placeholder="Vertel ons meer over uw droomtuin..."></textarea>
+        </div>
+        <div class="form-gdpr">
+          <input type="checkbox" name="gdpr" required id="gdprCheck">
+          <label for="gdprCheck">Ik ga akkoord met de verwerking van mijn persoonsgegevens in overeenstemming met het <a href="#" style="color:var(--terracotta);">privacybeleid</a> van Toptuinen G & S.</label>
+        </div>
+        <input type="hidden" name="_subject" value="Offerteaanvraag Toptuinen G & S">
+        <button type="submit" class="form-submit">Verstuur aanvraag</button>
+      </form>
     </div>
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
-<footer class="bg-[#0a0a0a] border-t border-white/[0.04] py-16 md:py-20">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
-    <div class="grid md:grid-cols-4 gap-12 mb-16">
-      <div class="md:col-span-2">
-        <div class="flex items-baseline gap-2 mb-6">
-          <span class="display text-2xl text-white">Toptuinen</span>
-          <span class="text-[10px] font-light opacity-30 tracking-[0.15em]">G & S</span>
-        </div>
-        <p class="text-white/30 text-sm leading-relaxed max-w-sm mb-6">
-          Hoveniers met hart voor het Hageland. Wij ontwerpen, aanleggen en onderhouden tuinen die tijdloos mooi en ecologisch verantwoord zijn.
-        </p>
-        <div class="flex items-center gap-4">
-          <a href="https://maps.google.com" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition">
-            <svg class="w-4 h-4 text-white/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          </a>
-          <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition">
-            <svg class="w-4 h-4 text-white/50" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-          </a>
-        </div>
-      </div>
-      <div>
-        <p class="text-white/40 text-xs font-semibold tracking-wider uppercase mb-4">Diensten</p>
-        <div class="space-y-3 text-sm text-white/30">
-          <a href="diensten.html" class="block hover:text-white transition">Tuinaanleg</a>
-          <a href="diensten.html" class="block hover:text-white transition">Tuinonderhoud</a>
-          <a href="diensten.html" class="block hover:text-white transition">Tuinrenovatie</a>
-          <a href="diensten.html" class="block hover:text-white transition">Beplanting</a>
-          <a href="diensten.html" class="block hover:text-white transition">Verlichting</a>
-        </div>
-      </div>
-      <div>
-        <p class="text-white/40 text-xs font-semibold tracking-wider uppercase mb-4">Contact</p>
-        <div class="space-y-3 text-sm text-white/30">
-          <p>Tuinstraat 12<br>3000 Leuven</p>
-          <a href="tel:+32499105235" class="block hover:text-white transition">0499 10 52 35</a>
-          <a href="mailto:info@toptuinengs.be" class="block hover:text-white transition">info@toptuinengs.be</a>
-          <p class="text-white/20 text-xs mt-2">Ma-Vr: 8:00-18:00</p>
-        </div>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Toptuinen <span>G & S</span></div>
+      <p class="footer-desc">Al meer dan 25 jaar dé hovenier van het Hageland. Eigendom van Gert & Steven De Coster. Elk project wordt uitgevoerd met passie en oog voor detail.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Diensten</div>
+      <div class="footer-links">
+        <a href="#services">Tuinaanleg</a>
+        <a href="#services">Tuinonderhoud</a>
+        <a href="#services">Tuinrenovatie</a>
+        <a href="#services">Ontwerp & advies</a>
       </div>
     </div>
-    <div class="pt-8 border-t border-white/[0.04] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-      <p>Toptuinen G & S  BV — <a href="https://deallos.com/" target="_blank" rel="noopener" class="underline hover:text-white/40">Gemaakt door Deallos</a></p>
-      <p>BTW BE 0458.234.567 · KBO 0458.234.567 · RPR Leuven</p>
+    <div>
+      <div class="footer-heading">Navigatie</div>
+      <div class="footer-links">
+        <a href="realisaties.html">Realisaties</a>
+        <a href="over.html">Over ons</a>
+        <a href="#contact">Contact</a>
+        <a href="#">Privacybeleid</a>
+      </div>
     </div>
+    <div>
+      <div class="footer-heading">Contact</div>
+      <div class="footer-contact">
+        <p>Tieltsebaan 3, 3211 Binkom</p>
+        <p><a href="tel:+32499105235">0499 10 52 35</a></p>
+        <p><a href="mailto:info@toptuinen-gs.be">info@toptuinen-gs.be</a></p>
+        <p style="margin-top:12px; font-size:12px; color:rgba(255,255,255,0.3);">BTW BE 0661.553.118<br>Erkend hovenier · VCA-gecertificeerd</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 Toptuinen G & S. Alle rechten voorbehouden.</span>
+    <span>Demo website — Geen officieel handelsmerk</span>
   </div>
 </footer>
 
+<!-- MOBILE CTA -->
+<div class="mobile-cta">
+  <a href="tel:+32499105235">Bel nu</a>
+  <a href="#contact" style="background:var(--terracotta);">Offerte</a>
+</div>
+
 <script>
-// ============ LENIS SMOOTH SCROLL ============
-const lenis = new Lenis({
-  duration: 1.2,
-  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  wheelMultiplier: 1,
-});
-
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// Sync with GSAP
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add((time) => lenis.raf(time * 1000));
-gsap.ticker.lagSmoothing(0);
-
-// Smooth scroll anchors
-[...document.querySelectorAll('a[href^="#"]')].forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) lenis.scrollTo(target, { offset: -80 });
-  });
-});
-
-// ============ HERO CANVAS PARTICLES ============
-(function() {
-  const canvas = document.getElementById('heroCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let w, h, particles = [];
-
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  class Particle {
-    constructor() { this.reset(); }
-    reset() {
-      this.x = Math.random() * w;
-      this.y = Math.random() * h;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = (Math.random() - 0.5) * 0.3;
-      this.size = Math.random() * 2.5 + 0.5;
-      this.alpha = Math.random() * 0.5 + 0.1;
-      this.life = Math.random() * 100 + 50;
+// ===== CANVAS GRAIN =====
+(function(){
+  const c=document.getElementById('grain-canvas');
+  const ctx=c.getContext('2d');
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  resize(); window.addEventListener('resize',resize);
+  function grain(){
+    const img=ctx.createImageData(c.width,c.height);
+    for(let i=0;i<img.data.length;i+=4){
+      const v=Math.random()*255;
+      img.data[i]=img.data[i+1]=img.data[i+2]=v;
+      img.data[i+3]=35;
     }
-    update() {
-      this.x += this.vx; this.y += this.vy; this.life--;
-      if (this.life <= 0 || this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(232,221,208,${this.alpha})`;
-      ctx.fill();
-    }
+    ctx.putImageData(img,0,0);
   }
-
-  for (let i = 0; i < 60; i++) particles.push(new Particle());
-
-  function animate() {
-    ctx.clearRect(0, 0, w, h);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animate);
-  }
-  animate();
+  let f=0;
+  function loop(){if(f++%3===0)grain(); requestAnimationFrame(loop);}
+  loop();
 })();
 
-// ============ CTA CANVAS PARTICLES ============
-(function() {
-  const canvas = document.getElementById('ctaCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let w, h, particles = [];
-
-  function resize() {
-    const rect = canvas.parentElement.getBoundingClientRect();
-    w = canvas.width = rect.width;
-    h = canvas.height = rect.height;
+// ===== CUSTOM CURSOR =====
+(function(){
+  const c=document.getElementById('cursor');
+  const t=document.getElementById('cursorTrail');
+  let x=0,y=0,tx=0,ty=0;
+  // Disable on touch
+  if('ontouchstart' in window){ c.style.display='none'; t.style.display='none'; return; }
+  document.addEventListener('mousemove',e=>{x=e.clientX;y=e.clientY;});
+  function lerp(a,b,n){return a+(b-a)*n;}
+  function tick(){
+    tx=lerp(tx,x,0.15); ty=lerp(ty,y,0.15);
+    c.style.left=(x-6)+'px'; c.style.top=(y-6)+'px';
+    t.style.left=(tx-20)+'px'; t.style.top=(ty-20)+'px';
+    requestAnimationFrame(tick);
   }
-  resize();
-  window.addEventListener('resize', resize);
-
-  class Particle {
-    constructor() { this.reset(); }
-    reset() {
-      this.x = Math.random() * w;
-      this.y = h + Math.random() * 20;
-      this.vy = -(Math.random() * 0.4 + 0.2);
-      this.vx = (Math.random() - 0.5) * 0.2;
-      this.size = Math.random() * 2 + 0.5;
-      this.alpha = Math.random() * 0.4 + 0.1;
-    }
-    update() {
-      this.y += this.vy; this.x += this.vx;
-      if (this.y < -10) this.reset();
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(184,85,48,${this.alpha})`;
-      ctx.fill();
-    }
-  }
-
-  for (let i = 0; i < 40; i++) particles.push(new Particle());
-
-  function animate() {
-    ctx.clearRect(0, 0, w, h);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animate);
-  }
-  animate();
+  tick();
+  document.querySelectorAll('a,.service-card,.portfolio-item,.form-submit').forEach(el=>{
+    el.addEventListener('mouseenter',()=>c.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>c.classList.remove('hover'));
+  });
 })();
 
-// ============ GSAP SCROLL ANIMATIONS ============
-gsap.registerPlugin(ScrollTrigger);
-
-// Hero entrance
-const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-heroTl
-  .to('.split-line-inner', { y: '0%', duration: 1, stagger: 0.1, delay: 0.3 })
-  .to('#heroSub', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
-  .to('#heroCta', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5');
-
-// Hero parallax on scroll
-gsap.to('.hero-bg', {
-  yPercent: 30,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#hero',
-    start: 'top top',
-    end: 'bottom top',
-    scrub: true,
-  }
-});
-
-// Before/After pinned reveal
-const baAfter = document.getElementById('baAfter');
-if (baAfter) {
-  gsap.to(baAfter, {
-    clipPath: 'inset(0 0% 0 0)',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.ba-section',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true,
-    }
-  });
-}
-
-// Service cards staggered reveal
-gsap.utils.toArray('.service-card').forEach((card, i) => {
-  gsap.from(card, {
-    y: 60,
-    opacity: 0,
-    duration: 0.8,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: card,
-      start: 'top 85%',
-      toggleActions: 'play none none none',
-    }
-  });
-});
-
-// Process steps
-const stepNodes = document.querySelectorAll('.step-node');
-stepNodes.forEach((node, i) => {
-  ScrollTrigger.create({
-    trigger: node,
-    start: 'top 70%',
-    onEnter: () => {
-      node.classList.add('active');
-      gsap.fromTo(node, { scale: 0.8 }, { scale: 1, duration: 0.5, ease: 'back.out(1.7)' });
-    }
-  });
-});
-
-// Step path draw
-const stepPath = document.getElementById('stepPath');
-if (stepPath) {
-  const pathLen = stepPath.getTotalLength ? stepPath.getTotalLength() : 100;
-  stepPath.style.strokeDasharray = pathLen;
-  stepPath.style.strokeDashoffset = pathLen;
-
-  gsap.to(stepPath, {
-    strokeDashoffset: 0,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.process-step:first-of-type',
-      start: 'top 60%',
-      endTrigger: '.process-step:last-of-type',
-      end: 'bottom 60%',
-      scrub: true,
-    }
-  });
-}
-
-// Portfolio items
-const portfolioItems = document.querySelectorAll('.portfolio-item');
-portfolioItems.forEach((item, i) => {
-  const isEven = i % 2 === 0;
-  gsap.from(item, {
-    y: isEven ? 60 : 100,
-    opacity: 0,
-    duration: 1,
-    delay: i * 0.08,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: item,
-      start: 'top 90%',
-      toggleActions: 'play none none none',
-    }
-  });
-});
-
-// Portfolio parallax on scroll
-portfolioItems.forEach((item, i) => {
-  const img = item.querySelector('img');
-  if (img) {
-    gsap.to(img, {
-      yPercent: isEven => (i % 2 === 0 ? -8 : -12),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: item,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
+// ===== SMOOTH SCROLL =====
+(()=>{
+  // Lenis-lite: just smooth scroll with CSS
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href');
+      if(id.length>1 && id.startsWith('#')){
+        e.preventDefault();
+        document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'});
       }
     });
-  }
-});
-
-// Testimonial parallax
-if (document.querySelector('.testimonial-section')) {
-  gsap.fromTo('#testimonialQuote', 
-    { opacity: 0, y: 40 },
-    {
-      opacity: 1, y: 0,
-      scrollTrigger: {
-        trigger: '.testimonial-section',
-        start: 'top center',
-        end: '40% center',
-        scrub: true,
-      }
-    }
-  );
-}
-
-// About section
-const aboutContent = document.querySelector('#over .order-2.lg\\:order-1');
-if (aboutContent) {
-  gsap.from(aboutContent, {
-    x: -40, opacity: 0, duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: '#over', start: 'top 70%' }
   });
-}
-const aboutImg = document.querySelector('#over .order-1.lg\\:order-2');
-if (aboutImg) {
-  gsap.from(aboutImg, {
-    x: 40, opacity: 0, duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: '#over', start: 'top 70%' }
+})();
+
+// ===== NAV SCROLL =====
+(()=>{
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{
+    if(window.scrollY>80) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
   });
-}
+})();
 
-// CTA entrance
-gsap.from('#contact h2, #contact p, #contact .flex', {
-  y: 40, opacity: 0, duration: 0.8,
-  stagger: 0.1,
-  ease: 'power3.out',
-  scrollTrigger: { trigger: '#contact', start: 'top 70%' }
-});
-
-// ============ NAV GLASS ON SCROLL ============
-const mainNav = document.getElementById('mainNav');
-ScrollTrigger.create({
-  trigger: '#hero',
-  start: 'bottom top+=80',
-  onEnter: () => mainNav.classList.add('nav-glass'),
-  onLeaveBack: () => mainNav.classList.remove('nav-glass'),
-});
-
-// ============ CURSOR GLOW ============
-const cursorGlow = document.getElementById('cursorGlow');
-let cursorX = 0, cursorY = 0, glowX = 0, glowY = 0;
-
-if (window.matchMedia('(pointer: fine)').matches) {
-  document.addEventListener('mousemove', (e) => {
-    cursorX = e.clientX; cursorY = e.clientY;
-    cursorGlow.style.opacity = '1';
+// ===== MOBILE NAV =====
+(()=>{
+  const btn=document.getElementById('mobileToggle');
+  const mn=document.getElementById('mobileNav');
+  let open=false;
+  btn.addEventListener('click',()=>{
+    open=!open;
+    mn.classList.toggle('open',open);
+    btn.style.opacity=open?'0.5':'1';
   });
-  document.addEventListener('mouseleave', () => {
-    cursorGlow.style.opacity = '0';
-  });
+  mn.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    open=false; mn.classList.remove('open'); btn.style.opacity='1';
+  }));
+})();
 
-  function animateCursor() {
-    glowX += (cursorX - glowX) * 0.1;
-    glowY += (cursorY - glowY) * 0.1;
-    cursorGlow.style.transform = `translate(${glowX-150}px, ${glowY-150}px)`;
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
-}
-
-// ============ MOBILE MENU ============
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-const mobileClose = document.getElementById('mobileClose');
-
-if (mobileMenuBtn && mobileMenu) {
-  mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.remove('hidden');
-    mobileMenu.classList.add('flex');
-  });
-  mobileClose.addEventListener('click', () => {
-    mobileMenu.classList.add('hidden');
-    mobileMenu.classList.remove('flex');
-  });
-  mobileMenu.querySelectorAll('.mobile-link').forEach(a => {
-    a.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      mobileMenu.classList.remove('flex');
+// ===== HERO INTRO ANIMATIONS =====
+(()=>{
+  // Staggered line reveals
+  setTimeout(()=>{
+    document.querySelectorAll('.hero-headline .line span').forEach((el,i)=>{
+      setTimeout(()=>{ el.style.transition='transform 1.2s cubic-bezier(0.16,1,0.3,1)'; el.style.transform='translateY(0)'; },200+i*150);
     });
+    document.querySelectorAll('.hero-sub span').forEach(el=>{
+      setTimeout(()=>{ el.style.transition='transform 1s cubic-bezier(0.16,1,0.3,1)'; el.style.transform='translateY(0)'; },700);
+    });
+    document.querySelectorAll('.hero-cta-row a').forEach((el,i)=>{
+      setTimeout(()=>{ el.style.transition='transform 1s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s'; el.style.transform='translateY(0)'; },900+i*100);
+    });
+    document.querySelector('.hero-eyebrow span').style.transition='all 0.8s ease 0.1s';
+    document.querySelector('.hero-eyebrow span').style.transform='translateY(0)';
+    document.getElementById('heroBg').style.transition='transform 2.5s cubic-bezier(0.16,1,0.3,1)';
+    document.getElementById('heroBg').style.transform='scale(1)';
+  },400);
+})();
+
+// ===== SCROLL REVEAL =====
+(()=>{
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.style.opacity='1';
+        entry.target.style.transform='translateY(0)';
+      }
+    });
+  },{threshold:0.15});
+  document.querySelectorAll('.about-text,.service-card,.portfolio-item').forEach(el=>{
+    el.style.opacity='0'; el.style.transform='translateY(40px)';
+    el.style.transition='opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1)';
+    obs.observe(el);
   });
-}
+})();
+
+// ===== ABOUT IMAGE REVEAL =====
+(()=>{
+  const reveal=document.getElementById('aboutReveal');
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        reveal.style.transition='transform 1.2s cubic-bezier(0.76,0,0.24,1)';
+        reveal.style.transform='translateX(100%)';
+        obs.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.3});
+  obs.observe(document.querySelector('.about-image-wrap'));
+})();
+
+// ===== PARALLAX =====
+(()=>{
+  const heroBg=document.getElementById('heroBg');
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY;
+    if(y<window.innerHeight){
+      const p=y*0.3;
+      heroBg.style.transform='translateY('+p+'px) scale(1)';
+    }
+  },{passive:true});
+})();
+
+// ===== BEFORE/AFTER SLIDER =====
+(()=>{
+  const wrap=document.getElementById('baSlider');
+  const overlay=document.getElementById('baOverlay');
+  const handle=document.getElementById('baHandle');
+  if(!wrap) return;
+  let down=false;
+  function setPos(px){const pct=Math.max(0,Math.min(100,px/wrap.offsetWidth*100)); overlay.style.width=pct+'%'; handle.style.left=pct+'%';}
+  wrap.addEventListener('mousedown',e=>{down=true; setPos(e.offsetX);});
+  wrap.addEventListener('mousemove',e=>{if(down)setPos(e.offsetX);});
+  document.addEventListener('mouseup',()=>down=false);
+  wrap.addEventListener('touchstart',e=>{down=true;const r=wrap.getBoundingClientRect();setPos(e.touches[0].clientX-r.left);},{passive:true});
+  wrap.addEventListener('touchmove',e=>{if(down){const r=wrap.getBoundingClientRect();setPos(e.touches[0].clientX-r.left);}},{passive:true});
+  document.addEventListener('touchend',()=>down=false);
+})();
+
+// ===== TESTIMONIALS =====
+(()=>{
+  const testimonials=[
+    {text:'"Gert en Steven hebben onze achtertuin volledig getransformeerd. Hun oog voor detail en het vakmanschap zijn ongeëvenaard. We genieten elke dag van onze nieuwe tuin."',author:'Lotte Mertens',loc:'Kessel-Lo'},
+    {text:'"Professionaliteit van begin tot eind. De communicatie was uitstekend en het resultaat overtrof onze verwachtingen. Onze tuin is nu het pronkstuk van de buurt."',author:'Jan Van den Bergh',loc:'Wijgmaal'},
+    {text:'"Na jaren zoeken eindelijk een hovenier die meedenkt en kwaliteit levert. Onze verwaarloosde tuin is herrezen als een groene oase. Absolute aanrader!"',author:'Mieke Peeters',loc:'Bertem'}
+  ];
+  let idx=0;
+  const content=document.getElementById('testimonialContent');
+  function render(i){
+    const t=testimonials[i];
+    content.style.opacity='0'; content.style.transition='opacity 0.4s ease';
+    setTimeout(()=>{
+      content.innerHTML='<p class="testimonial-text font-display">'+t.text+'</p><div class="testimonial-author">'+t.author+'<span>'+t.loc+'</span></div>';
+      content.style.opacity='1';
+    },400);
+  }
+  document.getElementById('prevTest').addEventListener('click',()=>{idx=(idx-1+testimonials.length)%testimonials.length;render(idx);});
+  document.getElementById('nextTest').addEventListener('click',()=>{idx=(idx+1)%testimonials.length;render(idx);});
+})();
+
+// ===== FORM HANDLING =====
+(()=>{
+  const form=document.getElementById('contactForm');
+  form.addEventListener('submit',function(e){
+    if(!form.querySelector('input[name="gdpr"]').checked){
+      e.preventDefault(); alert('Gelieve akkoord te gaan met het privacybeleid.'); return;
+    }
+  });
+})();
 </script>
 </body>
 </html>
