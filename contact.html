@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Contact — Toptuinen G & S · Vrijblijvend bezoek aanvragen</title>
+<meta name="description" content="Vraag een vrijblijvend bezoek aan voor uw tuin in Leuven of het Hageland. Reactie binnen 4 uur.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1C1C1C;
+    --cream: #F5F0E8;
+    --terracotta: #B85C38;
+    --olive: #4A5D3E;
+    --stone: #8C8578;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); }
+  .display { font-family: 'DM Serif Display', Georgia, serif; }
+  .ui-serif { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; }
+  input:focus, textarea:focus, select:focus { outline:none; border-color:var(--terracotta); box-shadow:0 0 0 3px rgba(184,92,56,0.1); }
+  .step-progress { height:4px; background:rgba(184,92,56,0.15); border-radius:2px; }
+  .step-progress > div { height:100%; border-radius:2px; background:var(--terracotta); transition:width 0.4s ease; }
+  .budget-option { position:relative; cursor:pointer; border:2px solid rgba(28,28,28,0.08); border-radius:12px; padding:12px 16px; transition:all 0.2s; }
+  .budget-option:hover { border-color:var(--terracotta); }
+  .budget-option input { position:absolute; opacity:0; }
+  .budget-option input:checked + div { color:var(--terracotta); }
+  .budget-option input:checked ~ .check { opacity:1; transform:scale(1); }
+  .budget-option .check { width:20px; height:20px; border-radius:50%; background:var(--terracotta); position:absolute; top:12px; right:12px; opacity:0; transform:scale(0.5); transition:all 0.2s; }
+  .budget-option .check::after { content:''; position:absolute; top:6px; left:5px; width:8px; height:4px; border-left:2px solid white; border-bottom:2px solid white; transform:rotate(-45deg); }
+  .service-option { position:relative; cursor:pointer; border:2px solid rgba(28,28,28,0.08); border-radius:12px; padding:16px; transition:all 0.2s; }
+  .service-option:hover { border-color:var(--terracotta); }
+  .service-option input { position:absolute; opacity:0; }
+  .service-option input:checked + div { color:var(--terracotta); }
+  @keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-33%)} }
+  .mobile-cta { position:fixed; bottom:0; left:0; right:0; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+</style>
+</head>
+<body x-data="funnel()" style="padding-bottom:72px;">
+
+<!-- PHONE RIBBON -->
+<div class="fixed top-0 left-0 right-0 z-50 bg-[#1C1C1C] text-white text-xs tracking-wider overflow-hidden">
+  <div class="whitespace-nowrap py-2 animate-[scroll_35s_linear_infinite] flex">
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="fixed top-8 left-0 right-0 z-40 bg-[#F5F0E8]/90 backdrop-blur-xl border-b border-black/5">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex items-center justify-between py-4">
+      <a href="index.html" class="flex items-baseline gap-2">
+        <span class="display text-xl md:text-2xl" style="color:var(--ink);">Toptuinen</span>
+        <span class="text-xs font-light opacity-50 hidden sm:inline" style="letter-spacing:0.1em;">G & S</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="diensten.html" class="hover:opacity-60 transition">Diensten</a>
+        <a href="realisaties.html" class="hover:opacity-60 transition">Realisaties</a>
+        <a href="over.html" class="hover:opacity-60 transition">Over ons</a>
+        <a href="contact.html" class="hover:opacity-60 transition" style="color:var(--terracotta);">Contact</a>
+      </nav>
+      <a href="tel:+32499105235" class="hidden md:inline-flex items-center gap-2 bg-[#1C1C1C] hover:bg-[#B85C38] text-white px-5 py-2.5 rounded-full text-sm font-medium transition">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        0499 10 52 35
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="pt-32 pb-12 px-6 lg:px-10">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-12 items-end">
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase mb-4" style="color:var(--terracotta);">— Contact</p>
+        <h1 class="display text-[clamp(2.5rem,6vw,4.5rem)] leading-[1.02]">
+          Vraag een<br>
+          <span class="ui-serif" style="color:var(--terracotta);">vrijblijvend bezoek</span> aan.
+        </h1>
+      </div>
+      <p class="text-lg opacity-60 leading-relaxed lg:text-right">
+        Reactie binnen 4 werkdagen — meestal dezelfde dag nog. Geen verplichtingen, geen verkooppraatje.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FORM + REASSURANCE -->
+<section class="px-6 lg:px-10 pb-24">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-5 gap-10">
+
+    <!-- FORM -->
+    <div class="lg:col-span-3">
+      <div class="bg-white rounded-3xl border border-black/5 p-8 md:p-10 shadow-sm">
+
+        <!-- Progress -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between text-xs font-medium mb-2">
+            <span :style="step >= 1 ? 'color:var(--terracotta)' : ''">Stap <span x-text="step"></span> van 5</span>
+            <span class="opacity-40" x-text="stepLabels[step]"></span>
+          </div>
+          <div class="step-progress">
+            <div :style="'width:' + (step/5*100) + '%'"></div>
+          </div>
+        </div>
+
+        <!-- STEP 1: Postcode -->
+        <div x-show="step === 1" x-transition.opacity.duration.300ms>
+          <h2 class="display text-2xl mb-2">Waar ligt uw tuin?</h2>
+          <p class="text-sm opacity-50 mb-6">We werken in een straal van 35 km rond Leuven. Controleer of uw postcode in ons werkgebied ligt.</p>
+          <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Postcode</label>
+          <input type="text" x-model="form.postcode" @input="postcodeCheck()" placeholder="bijv. 3010" maxlength="4" class="w-full text-2xl font-bold px-5 py-4 rounded-xl border-2 bg-transparent" :class="postcodeError ? 'border-red-300' : 'border-black/10'">
+          <p x-show="postcodeError" x-transition class="text-red-500 text-sm mt-2" x-text="postcodeError"></p>
+          <p x-show="postcodeValid" x-transition class="text-sm mt-2" style="color:var(--olive);">✓ Uw postcode ligt in ons werkgebied.</p>
+          <button @click="step2()" :disabled="!postcodeValid" class="mt-6 w-full py-4 rounded-full font-medium text-white transition-all duration-300" :class="postcodeValid ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
+        </div>
+
+        <!-- STEP 2: Service -->
+        <div x-show="step === 2" x-transition.opacity.duration.300ms>
+          <h2 class="display text-2xl mb-2">Waar kunnen we u mee helpen?</h2>
+          <p class="text-sm opacity-50 mb-6">Selecteer het type werk. U kunt meerdere opties kiezen.</p>
+          <div class="grid sm:grid-cols-2 gap-3 mb-6">
+            <label class="service-option" :class="form.services.includes('aanleg') ? 'border-[#B85C38]' : ''">
+              <input type="checkbox" value="aanleg" x-model="form.services">
+              <div>
+                <div class="font-medium">Tuinaanleg</div>
+                <div class="text-xs opacity-50">Nieuwe tuin of volledige herinrichting</div>
+              </div>
+            </label>
+            <label class="service-option" :class="form.services.includes('onderhoud') ? 'border-[#4A5D3E]' : ''">
+              <input type="checkbox" value="onderhoud" x-model="form.services">
+              <div>
+                <div class="font-medium">Onderhoud</div>
+                <div class="text-xs opacity-50">Periodiek onderhoud van bestaande tuin</div>
+              </div>
+            </label>
+            <label class="service-option" :class="form.services.includes('renovatie') ? 'border-[#8C8578]' : ''">
+              <input type="checkbox" value="renovatie" x-model="form.services">
+              <div>
+                <div class="font-medium">Renovatie</div>
+                <div class="text-xs opacity-50">Bestaande tuin opfrissen of herstellen</div>
+              </div>
+            </label>
+            <label class="service-option" :class="form.services.includes('terras') ? 'border-[#B85C38]' : ''">
+              <input type="checkbox" value="terras" x-model="form.services">
+              <div>
+                <div class="font-medium">Terras of opritten</div>
+                <div class="text-xs opacity-50">Bestrating, terrasconstructie</div>
+              </div>
+            </label>
+          </div>
+          <div class="flex gap-3">
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="step++" :disabled="form.services.length === 0" class="flex-1 py-3 rounded-full font-medium text-white transition-all" :class="form.services.length > 0 ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Budget -->
+        <div x-show="step === 3" x-transition.opacity.duration.300ms>
+          <h2 class="display text-2xl mb-2">Wat is uw verwachte budget?</h2>
+          <p class="text-sm opacity-50 mb-6">Dit helpt ons om realistisch te adviseren — er volgt geen offerte zonder bezoek.</p>
+          <div class="grid sm:grid-cols-2 gap-3 mb-6">
+            <label class="budget-option" :class="form.budget === '8-15' ? 'border-[#B85C38]' : ''">
+              <input type="radio" name="budget" value="8-15" x-model="form.budget">
+              <div class="font-medium">€8.000 – €15.000</div>
+              <div class="text-xs opacity-50">Kleine herinrichting of onderhoud</div>
+              <div class="check"></div>
+            </label>
+            <label class="budget-option" :class="form.budget === '15-35' ? 'border-[#B85C38]' : ''">
+              <input type="radio" name="budget" value="15-35" x-model="form.budget">
+              <div class="font-medium">€15.000 – €35.000</div>
+              <div class="text-xs opacity-50">Gemiddelde tuinaanleg</div>
+              <div class="check"></div>
+            </label>
+            <label class="budget-option" :class="form.budget === '35-75' ? 'border-[#B85C38]' : ''">
+              <input type="radio" name="budget" value="35-75" x-model="form.budget">
+              <div class="font-medium">€35.000 – €75.000</div>
+              <div class="text-xs opacity-50">Grote tuin of complete aanleg</div>
+              <div class="check"></div>
+            </label>
+            <label class="budget-option" :class="form.budget === '75+' ? 'border-[#B85C38]' : ''">
+              <input type="radio" name="budget" value="75+" x-model="form.budget">
+              <div class="font-medium">€75.000+</div>
+              <div class="text-xs opacity-50">Villa-tuin of exclusief project</div>
+              <div class="check"></div>
+            </label>
+            <label class="budget-option sm:col-span-2" :class="form.budget === 'onbekend' ? 'border-[#B85C38]' : ''">
+              <input type="radio" name="budget" value="onbekend" x-model="form.budget">
+              <div class="font-medium">Nog niet zeker — graag advies</div>
+              <div class="check"></div>
+            </label>
+          </div>
+          <div class="flex gap-3">
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="step++" :disabled="!form.budget" class="flex-1 py-3 rounded-full font-medium text-white transition-all" :class="form.budget ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Details -->
+        <div x-show="step === 4" x-transition.opacity.duration.300ms>
+          <h2 class="display text-2xl mb-2">Nog een paar details.</h2>
+          <p class="text-sm opacity-50 mb-6">Hoe meer we weten, hoe beter we kunnen voorbereiden.</p>
+          <div class="space-y-4 mb-6">
+            <div>
+              <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Naam</label>
+              <input type="text" x-model="form.name" placeholder="Uw volledige naam" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Telefoon</label>
+                <input type="tel" x-model="form.phone" placeholder="04xx xx xx xx" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+              </div>
+              <div>
+                <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">E-mail</label>
+                <input type="email" x-model="form.email" placeholder="naam@voorbeeld.be" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Gemeente / Straat</label>
+              <input type="text" x-model="form.address" placeholder="bijv. Kessel-Lo, Dorpstraat" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+            </div>
+            <div>
+              <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Oppervlakte tuin (m², schatting)</label>
+              <input type="number" x-model="form.surface" placeholder="bijv. 250" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+            </div>
+            <div>
+              <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Vertel kort uw wensen of situatie</label>
+              <textarea x-model="form.notes" rows="4" placeholder="Wat wilt u veranderen of aanleggen? Heeft u al een ontwerp of moet dat nog?" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent resize-none"></textarea>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="step++" :disabled="!form.name || !form.phone" class="flex-1 py-3 rounded-full font-medium text-white transition-all" :class="form.name && form.phone ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
+          </div>
+        </div>
+
+        <!-- STEP 5: GDPR + Submit -->
+        <div x-show="step === 5" x-transition.opacity.duration.300ms>
+          <h2 class="display text-2xl mb-2">Laatste check.</h2>
+          <p class="text-sm opacity-50 mb-6">Controleer uw gegevens en geef toestemming voor contact.</p>
+
+          <div class="bg-black/[0.03] rounded-xl p-5 mb-6 space-y-2 text-sm">
+            <div class="flex justify-between"><span class="opacity-50">Postcode</span><span class="font-medium" x-text="form.postcode"></span></div>
+            <div class="flex justify-between"><span class="opacity-50">Dienst(en)</span><span class="font-medium" x-text="form.services.join(', ')"></span></div>
+            <div class="flex justify-between"><span class="opacity-50">Budget</span><span class="font-medium" x-text="budgetLabel[form.budget] || form.budget"></span></div>
+            <div class="flex justify-between"><span class="opacity-50">Naam</span><span class="font-medium" x-text="form.name"></span></div>
+            <div class="flex justify-between"><span class="opacity-50">Telefoon</span><span class="font-medium" x-text="form.phone"></span></div>
+            <div class="flex justify-between" x-show="form.email"><span class="opacity-50">E-mail</span><span class="font-medium" x-text="form.email"></span></div>
+            <div class="flex justify-between" x-show="form.address"><span class="opacity-50">Adres</span><span class="font-medium" x-text="form.address"></span></div>
+            <div class="flex justify-between" x-show="form.surface"><span class="opacity-50">Oppervlakte</span><span class="font-medium" x-text="form.surface + ' m²'"></span></div>
+          </div>
+
+          <div class="mb-6">
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" x-model="form.consent" class="mt-1 w-5 h-5 rounded border-2 border-black/20 accent-[#B85C38]">
+              <span class="text-sm leading-relaxed">
+                Ik geef toestemming dat Toptuinen G & S mijn gegevens gebruikt om contact met mij op te nemen.
+                <span class="block mt-1 opacity-50">Uw gegevens worden niet gedeeld met derden. Lees ons <a href="#" class="underline" style="color:var(--terracotta);">privacybeleid</a>.</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="flex gap-3">
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="submitForm()" :disabled="!form.consent || submitting" class="flex-1 py-4 rounded-full font-bold text-white transition-all flex items-center justify-center gap-2" :class="form.consent && !submitting ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">
+              <span x-show="!submitting">Verstuur aanvraag</span>
+              <span x-show="submitting" class="flex items-center gap-2">
+                <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                Versturen...
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SUCCESS -->
+        <div x-show="step === 6" x-transition.opacity.duration.500ms class="text-center py-8">
+          <div class="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center" style="background:var(--olive);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h2 class="display text-3xl mb-3">Ontvangen!</h2>
+          <p class="opacity-60 leading-relaxed max-w-md mx-auto mb-8">We nemen binnen 4 werkdagen contact met u op. Meestal dezelfde dag nog. Geen verplichtingen — gewoon een kennismaking.</p>
+          <a href="tel:+32499105235" class="inline-flex items-center gap-2 bg-[#B85C38] text-white px-8 py-3 rounded-full font-medium transition hover:bg-[#1C1C1C]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Liever direct bellen? 0499 10 52 35
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- REASSURANCE SIDEBAR -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-white rounded-2xl border border-black/5 p-6">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(184,92,56,0.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B85C38" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="font-semibold mb-1">Altijd een vaste prijs</h3>
+        <p class="text-sm opacity-50 leading-relaxed">Geen verrassingen achteraf. Wat we afspreken, betaalt u. Geen meerwerk zonder uw uitdrukkelijke goedkeuring.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-black/5 p-6">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(74,93,62,0.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A5D3E" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 class="font-semibold mb-1">Reactie binnen 4 uur</h3>
+        <p class="text-sm opacity-50 leading-relaxed">We bellen dezelfde werkdag nog terug — niet over twee weken. Geen robots, geen callcenters.</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-black/5 p-6">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(140,133,120,0.1);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8C8578" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+        </div>
+        <h3 class="font-semibold mb-1">Geen verplichtingen</h3>
+        <p class="text-sm opacity-50 leading-relaxed">Het eerste bezoek is gratis en vrijblijvend. Pas na uw goedkeuring van het plan gaan we aan de slag.</p>
+      </div>
+
+      <!-- Direct contact -->
+      <div class="rounded-2xl p-6 text-white" style="background:var(--olive);">
+        <h3 class="font-semibold mb-3">Liever direct contact?</h3>
+        <a href="tel:+32499105235" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 transition mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span class="font-medium">0499 10 52 35</span>
+        </a>
+        <div class="text-sm opacity-70 space-y-1">
+          <div>Ma–Vr: 7u30 – 17u30</div>
+          <div>Zat: op afspraak</div>
+        </div>
+      </div>
+
+      <!-- KBO -->
+      <div class="text-xs opacity-40 space-y-1">
+        <div>BTW BE0XXX.XXX.XXX</div>
+        <div>KBO RPR Leuven</div>
+        <div>RPR Brussel · erkend hovenier</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-[#1C1C1C] text-white/40 px-6 lg:px-10 py-10 text-sm">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="flex items-center gap-4">
+      <span class="display text-lg text-white/60">Toptuinen G & S</span>
+      <span class="text-xs opacity-40">© 2026 · BTW BE0XXX.XXX.XXX · Leuven</span>
+    </div>
+    <div class="flex items-center gap-6">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="diensten.html" class="hover:text-white transition">Diensten</a>
+      <a href="realisaties.html" class="hover:text-white transition">Realisaties</a>
+      <a href="over.html" class="hover:text-white transition">Over ons</a>
+    </div>
+    <div class="text-xs opacity-30">
+      Voorstel-website door <a href="https://deallos.com" class="underline hover:text-white/60">Deallos</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MOBILE CTA -->
+<div class="mobile-cta bg-white border-t border-black/5 md:hidden">
+  <div class="flex">
+    <a href="tel:+32499105235" class="flex-1 flex items-center justify-center gap-2 py-3.5 font-medium" style="background:var(--cream); color:var(--ink);">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Bellen
+    </a>
+    <a href="contact.html" class="flex-1 flex items-center justify-center gap-2 py-3.5 font-medium text-white" style="background:var(--terracotta);">
+      Offerte aanvragen
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<script>
+function funnel() {
+  return {
+    step: 1,
+    stepLabels: {1:'Postcode', 2:'Dienst', 3:'Budget', 4:'Details', 5:'Controle'},
+    submitting: false,
+    postcodeError: '',
+    postcodeValid: false,
+    budgetLabel: {'8-15':'€8.000 – €15.000','15-35':'€15.000 – €35.000','35-75':'€35.000 – €75.000','75+':'€75.000+','onbekend':'Nog niet zeker'},
+    form: {
+      postcode: '',
+      services: [],
+      budget: '',
+      name: '',
+      phone: '',
+      email: '',
+      address: '',
+      surface: '',
+      notes: '',
+      consent: false
+    },
+    postcodeCheck() {
+      const pc = this.form.postcode.replace(/\D/g,'');
+      this.form.postcode = pc;
+      if (pc.length !== 4) { this.postcodeError = ''; this.postcodeValid = false; return; }
+      const validPCs = ['3000','3001','3010','3012','3018','3050','3051','3052','3053','3054','3060','3061','3070','3071','3078','3080','3110','3111','3118','3120','3128','3130','3140','3150','3200','3201','3202','3210','3211','3212','3220','3221','3270','3271','3272','3290','3293','3294','3300','3320','3321','3350','3360','3370','3380','3390','3400','3401','3404','3440','3450','3460','3470','3471','3472','3473','3500','3501','3510','3511','3512','3520','3530','3540','3545','3550','3560','3570','3580','3581','3582','3583','3590','3600','3620','3621','3630','3631','3640','3660','3670','3690','3700','3717','3720','3721','3722','3723','3724','3730','3732','3740','3742','3746','3770','3790','3791','3792','3793','3798','3800','3803','3806','3830','3831','3832','3840','3850','3870','3890','3891','3900','3910','3920','3930','3940','3941','3945','3950','3960','3970','3971','3980','3990'];
+      if (validPCs.includes(pc)) { this.postcodeError = ''; this.postcodeValid = true; }
+      else { this.postcodeError = 'Sorry, dit postcodegebied ligt buiten ons werkgebied (max. 35 km rond Leuven).'; this.postcodeValid = false; }
+    },
+    step2() { if (this.postcodeValid) this.step = 2; },
+    submitForm() {
+      if (!this.form.consent) return;
+      this.submitting = true;
+      setTimeout(() => { this.submitting = false; this.step = 6; }, 2000);
+    }
+  };
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Toptuinen G & S — Hoveniers uit het Hageland</title>
+<meta name="description" content="Hoveniersbedrijf in Leuven en het Hageland. Tuinaanleg, onderhoud en renovatie. Bekroond met 4.8/5 door 22 klanten.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1C1C1C;
+    --cream: #F5F0E8;
+    --terracotta: #B85C38;
+    --olive: #4A5D3E;
+    --stone: #8C8578;
+    --white: #FFFFFF;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--ink); }
+  .display { font-family: 'DM Serif Display', Georgia, serif; }
+  .ui-serif { font-family: 'DM Serif Display', Georgia, serif; font-style: italic; }
+
+  /* Before/After slider */
+  .ba-slider { position:relative; overflow:hidden; border-radius:20px; cursor:ew-resize; }
+  .ba-slider img { display:block; width:100%; height:100%; object-fit:cover; }
+  .ba-overlay { position:absolute; top:0; left:0; width:50%; height:100%; overflow:hidden; border-right:3px solid var(--white); }
+  .ba-handle { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:48px; height:48px; background:var(--white); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 32px rgba(0,0,0,0.3); cursor:ew-resize; z-index:10; }
+  .ba-label { position:absolute; bottom:16px; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:0.05em; }
+  .ba-label.before { left:16px; background:rgba(0,0,0,0.6); color:white; }
+  .ba-label.after { right:16px; background:rgba(184,92,56,0.9); color:white; }
+
+  /* FAQ accordion */
+  .faq-item { border-bottom:1px solid rgba(28,28,28,0.08); }
+  .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.35s ease, padding 0.35s ease; }
+  .faq-answer.open { max-height:300px; padding-bottom:20px; }
+
+  /* Scroll reveal */
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* Phone ribbon */
+  @keyframes ribbonSlide { from { transform:translateX(100%); } to { transform:translateX(0); } }
+  .ribbon-enter { animation:ribbonSlide 0.6s ease-out forwards; }
+
+  /* Project hover */
+  .project-card { position:relative; overflow:hidden; border-radius:16px; }
+  .project-card img { transition:transform 0.7s ease; }
+  .project-card:hover img { transform:scale(1.06); }
+  .project-card .overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(28,28,28,0.75) 0%, transparent 60%); opacity:0; transition:opacity 0.4s ease; }
+  .project-card:hover .overlay { opacity:1; }
+  .project-card .meta { position:absolute; bottom:0; left:0; right:0; padding:24px; transform:translateY(12px); opacity:0; transition:all 0.4s ease; }
+  .project-card:hover .meta { transform:translateY(0); opacity:1; }
+
+  /* Step timeline */
+  .step-line { position:absolute; left:28px; top:48px; bottom:48px; width:2px; background:rgba(184,92,56,0.2); }
+  .step-dot { width:56px; height:56px; border-radius:50%; background:var(--terracotta); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; flex-shrink:0; }
+  .step-dot.done { background:var(--olive); }
+
+  /* Form focus states */
+  input:focus, textarea:focus, select:focus { outline:none; border-color:var(--terracotta); box-shadow:0 0 0 3px rgba(184,92,56,0.1); }
+
+  /* Mobile bottom CTA */
+  .mobile-cta { position:fixed; bottom:0; left:0; right:0; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+</style>
+</head>
+<body class="antialiased" x-data="{ mobileMenu: false }" style="padding-bottom:72px;">
+
+<!-- PHONE RIBBON -->
+<div id="phoneRibbon" class="fixed top-0 left-0 right-0 z-50 bg-[#1C1C1C] text-white text-xs tracking-wider overflow-hidden ribbon-enter">
+  <div class="whitespace-nowrap py-2 animate-[scroll_35s_linear_infinite] flex">
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+    <span class="mx-6 flex-shrink-0">★★★★★ 4.8 / 5 op Google · 22 klanten · LEUVEN · HAGELAND · BERTEM · KESSEL-LO · WIJGMAAL ·</span>
+  </div>
+</div>
+<style>@keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-33%)} }</style>
+
+<!-- NAV -->
+<header class="fixed top-8 left-0 right-0 z-40 transition-all duration-300" id="mainNav" style="background:transparent;">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex items-center justify-between py-4">
+      <a href="index.html" class="flex items-baseline gap-2">
+        <span class="display text-xl md:text-2xl" style="color:var(--ink);">Toptuinen</span>
+        <span class="text-xs font-light opacity-50 hidden sm:inline" style="letter-spacing:0.1em;">G & S</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="diensten.html" class="hover:opacity-60 transition">Diensten</a>
+        <a href="realisaties.html" class="hover:opacity-60 transition">Realisaties</a>
+        <a href="over.html" class="hover:opacity-60 transition">Over ons</a>
+        <a href="contact.html" class="hover:opacity-60 transition">Contact</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="tel:+32499105235" class="hidden md:inline-flex items-center gap-2 bg-[#1C1C1C] hover:bg-[#B85C38] text-white px-5 py-2.5 rounded-full text-sm font-medium transition">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          0499 10 52 35
+        </a>
+        <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div x-show="mobileMenu" x-transition.opacity class="md:hidden bg-[#F5F0E8]/95 backdrop-blur-xl border-t border-black/5">
+    <div class="max-w-7xl mx-auto px-6 py-6 space-y-4 text-lg font-medium">
+      <a href="diensten.html" @click="mobileMenu=false" class="block py-2">Diensten</a>
+      <a href="realisaties.html" @click="mobileMenu=false" class="block py-2">Realisaties</a>
+      <a href="over.html" @click="mobileMenu=false" class="block py-2">Over ons</a>
+      <a href="contact.html" @click="mobileMenu=false" class="block py-2">Contact</a>
+      <a href="tel:+32499105235" class="inline-flex items-center gap-2 bg-[#B85C38] text-white px-6 py-3 rounded-full mt-4">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        0499 10 52 35
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="min-h-[100dvh] flex items-center pt-24 pb-16 px-6 lg:px-10 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+    <div class="lg:col-span-6 relative z-10">
+      <div class="inline-flex items-center gap-2 bg-[#B85C38] text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wider mb-6">
+        <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+        VRIJE PLEK · MEI & JUNI
+      </div>
+      <h1 class="display text-[clamp(2.8rem,7vw,5.5rem)] leading-[1.02] tracking-tight mb-6">
+        Tuinen die<br>
+        <span class="ui-serif" style="color:var(--terracotta);">mee groeien</span><br>
+        met uw leven.
+      </h1>
+      <p class="text-lg md:text-xl opacity-70 max-w-lg leading-relaxed mb-10">
+        Sinds 2008 ontwerpen en onderhouden we tuinen in Leuven en het Hageland die beter worden met de jaren — niet warmer zonder reden.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="contact.html" class="inline-flex items-center gap-2 bg-[#1C1C1C] hover:bg-[#B85C38] text-white px-8 py-4 rounded-full font-medium transition-all duration-300">
+          Plan een vrijblijvend bezoek
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="realisaties.html" class="inline-flex items-center gap-2 border-2 border-[#1C1C1C] hover:bg-[#1C1C1C] hover:text-white px-8 py-4 rounded-full font-medium transition-all duration-300">
+          Bekijk realisaties
+        </a>
+      </div>
+      <div class="mt-14 flex items-center gap-8">
+        <div>
+          <div class="display text-4xl">22</div>
+          <div class="text-sm opacity-50">tevreden klanten</div>
+        </div>
+        <div class="w-px h-12 bg-black/10"></div>
+        <div>
+          <div class="display text-4xl">4.8<span class="text-xl opacity-50">/5</span></div>
+          <div class="text-sm opacity-50">Google reviews</div>
+        </div>
+        <div class="w-px h-12 bg-black/10"></div>
+        <div>
+          <div class="display text-4xl">17+</div>
+          <div class="text-sm opacity-50">jaar ervaring</div>
+        </div>
+      </div>
+    </div>
+    <div class="lg:col-span-6 relative">
+      <div class="aspect-[4/5] rounded-[28px] overflow-hidden shadow-2xl relative">
+        <img src="https://images.pexels.com/photos/2132171/pexels-photo-2132171.jpeg?auto=compress&w=1200" alt="Tuinaanleg in het Hageland" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+      </div>
+      <!-- Floating card -->
+      <div class="absolute -bottom-6 -left-6 md:-left-10 bg-white rounded-2xl shadow-xl p-5 max-w-[240px] border border-black/5">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 rounded-full bg-[#4A5D3E] flex items-center justify-center text-white text-sm font-bold">T</div>
+          <div>
+            <div class="text-sm font-semibold">Tuin Wijgmaal</div>
+            <div class="text-xs opacity-50">Opgeleverd in 11 dagen</div>
+          </div>
+        </div>
+        <div class="text-xs opacity-60 leading-relaxed">"Geen enkele verrassing op de factuur. Precies wat we hadden besproken."</div>
+      </div>
+      <!-- Second floating element -->
+      <div class="absolute -top-4 -right-4 md:-right-8 bg-[#B85C38] text-white rounded-2xl shadow-xl p-4 text-center hidden md:block">
+        <div class="display text-3xl">4.8</div>
+        <div class="text-xs opacity-80">★★★★★</div>
+        <div class="text-xs mt-1 opacity-70">22 reviews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="px-6 lg:px-10 py-24 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-12 items-end mb-16">
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase mb-4" style="color:var(--terracotta);">— Wat we doen</p>
+        <h2 class="display text-[clamp(2.5rem,5vw,4rem)] leading-[1.05]">
+          Drie ambachten.<br>
+          <span class="ui-serif" style="color:var(--stone);">Echt goed gedaan.</span>
+        </h2>
+      </div>
+      <p class="text-lg opacity-60 leading-relaxed max-w-md lg:ml-auto">
+        We doen geen vijftig dingen half. We doen drie dingen volledig — met het juiste materiaal, het juiste team en het juiste moment.
+      </p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <article class="group p-8 rounded-3xl border border-black/5 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-8" style="background:var(--terracotta);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3 class="display text-2xl mb-3">Tuinaanleg</h3>
+        <p class="opacity-60 leading-relaxed mb-6">Van eerste spade tot laatste plant. Ontwerp, grondwerk, bestrating, irrigatie en beplanting in één doorlopend traject.</p>
+        <ul class="space-y-2 text-sm opacity-70">
+          <li class="flex items-center gap-2"><span style="color:var(--terracotta);">→</span> 3D-schets op maat</li>
+          <li class="flex items-center gap-2"><span style="color:var(--terracotta);">→</span> Bodemanalyse &amp; drainage</li>
+          <li class="flex items-center gap-2"><span style="color:var(--terracotta);">→</span> Tot 5 jaar groeigarantie</li>
+        </ul>
+        <a href="diensten.html#aanleg" class="inline-flex items-center gap-2 mt-6 text-sm font-medium" style="color:var(--terracotta);">
+          Meer over aanleg
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+      <article class="group p-8 rounded-3xl border border-black/5 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-8" style="background:var(--olive);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 20h9M12 20V10m0 10H3M12 10l-4-4m4 4l4-4m-4 4V4m0 6H8m4 0h4"/></svg>
+        </div>
+        <h3 class="display text-2xl mb-3">Onderhoud</h3>
+        <p class="opacity-60 leading-relaxed mb-6">Seizoensgebonden onderhoudsformules die meeliften met de natuur. Geen abonnement — wel een afspraak die wij onthouden.</p>
+        <ul class="space-y-2 text-sm opacity-70">
+          <li class="flex items-center gap-2"><span style="color:var(--olive);">→</span> 4 tot 12 bezoeken/jaar</li>
+          <li class="flex items-center gap-2"><span style="color:var(--olive);">→</span> Snoeikalender op maat</li>
+          <li class="flex items-center gap-2"><span style="color:var(--olive);">→</span> Gazon op niveau houden</li>
+        </ul>
+        <a href="diensten.html#onderhoud" class="inline-flex items-center gap-2 mt-6 text-sm font-medium" style="color:var(--olive);">
+          Meer over onderhoud
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+      <article class="group p-8 rounded-3xl border border-black/5 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-8" style="background:var(--stone);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 3h18v18H3zM9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+        </div>
+        <h3 class="display text-2xl mb-3">Renovatie</h3>
+        <p class="opacity-60 leading-relaxed mb-6">Een tuin die het heeft laten afweten? We vertrekken van wat er nog staat en brengen het terug tot leven — vaak sneller dan nieuw.</p>
+        <ul class="space-y-2 text-sm opacity-70">
+          <li class="flex items-center gap-2"><span style="color:var(--stone);">→</span> Diagnose &amp; herstelplan</li>
+          <li class="flex items-center gap-2"><span style="color:var(--stone);">→</span> Verjonging bestaande beplanting</li>
+          <li class="flex items-center gap-2"><span style="color:var(--stone);">→</span> Soms 30-40% goedkoper dan nieuw</li>
+        </ul>
+        <a href="diensten.html#renovatie" class="inline-flex items-center gap-2 mt-6 text-sm font-medium" style="color:var(--stone);">
+          Meer over renovatie
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RECENT WORK -->
+<section class="px-6 lg:px-10 py-24" style="background:var(--cream);">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase mb-3" style="color:var(--terracotta);">— Recent werk</p>
+        <h2 class="display text-[clamp(2rem,4vw,3.5rem)] leading-[1.05]">Projecten in de regio.</h2>
+      </div>
+      <a href="realisaties.html" class="inline-flex items-center gap-2 text-sm font-medium pb-1 border-b border-current" style="color:var(--terracotta);">
+        Alle realisaties
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="realisaties.html#wijgmaal" class="project-card aspect-[4/3] md:aspect-[16/10]">
+        <img src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&w=1000" alt="Familietuin Wijgmaal" class="w-full h-full object-cover">
+        <div class="overlay"></div>
+        <div class="meta text-white">
+          <div class="text-xs tracking-wider opacity-70 mb-1">WIJGMAAL · AANLEG</div>
+          <div class="display text-2xl">Familietuin met speeltuin</div>
+          <div class="text-sm opacity-70 mt-1">580 m² · 14 dagen · €38.500</div>
+        </div>
+      </a>
+      <a href="realisaties.html#kessel-lo" class="project-card aspect-[4/3] md:aspect-[16/10]">
+        <img src="https://images.pexels.com/photos/2180430/pexels-photo-2180430.jpeg?auto=compress&w=1000" alt="Voortuin Kessel-Lo" class="w-full h-full object-cover">
+        <div class="overlay"></div>
+        <div class="meta text-white">
+          <div class="text-xs tracking-wider opacity-70 mb-1">KESSEL-LO · HERINRICHTING</div>
+          <div class="display text-2xl">Voortuin met taxushaag</div>
+          <div class="text-sm opacity-70 mt-1">120 m² · 6 dagen · €12.800</div>
+        </div>
+      </a>
+      <a href="realisaties.html#bertem" class="project-card aspect-[4/3] md:aspect-[16/10]">
+        <img src="https://images.pexels.com/photos/1004584/pexels-photo-1004584.jpeg?auto=compress&w=1000" alt="Terras Bertem" class="w-full h-full object-cover">
+        <div class="overlay"></div>
+        <div class="meta text-white">
+          <div class="text-xs tracking-wider opacity-70 mb-1">BERTEM · TERRAS</div>
+          <div class="display text-2xl">Strak terras &amp; zwemvijver</div>
+          <div class="text-sm opacity-70 mt-1">340 m² · 18 dagen · €52.000</div>
+        </div>
+      </a>
+      <a href="realisaties.html#leuven" class="project-card aspect-[4/3] md:aspect-[16/10]">
+        <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&w=1000" alt="Tuinrenovatie Leuven" class="w-full h-full object-cover">
+        <div class="overlay"></div>
+        <div class="meta text-white">
+          <div class="text-xs tracking-wider opacity-70 mb-1">LEUVEN · RENOVATIE</div>
+          <div class="display text-2xl">Stadstuin volledige make-over</div>
+          <div class="text-sm opacity-70 mt-1">85 m² · 8 dagen · €18.500</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- VIER STAPPEN -->
+<section class="px-6 lg:px-10 py-24 bg-[#1C1C1C] text-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 mb-20">
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase mb-4" style="color:var(--terracotta);">— Ons proces</p>
+        <h2 class="display text-[clamp(2.5rem,5vw,4rem)] leading-[1.05]">
+          Van eerste bezoek<br>
+          tot <span class="ui-serif" style="color:var(--terracotta);">oplevering</span>.
+        </h2>
+      </div>
+      <div class="flex items-end">
+        <p class="text-lg opacity-50 leading-relaxed">
+          Geen black box. Elke stap leggen we voor u vast — zodat u altijd weet waar u aan toe bent en wanneer het klaar is.
+        </p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-4 gap-6">
+      <div class="p-6 rounded-2xl border border-white/10 bg-white/5 relative group hover:bg-white/10 transition">
+        <div class="display text-5xl opacity-20 mb-4">01</div>
+        <h3 class="display text-xl mb-3">Terreinbezoek</h3>
+        <p class="text-sm opacity-60 leading-relaxed mb-4">We komen langs, luisteren naar uw wensen en meten het terrein op. Geen verplichtingen — gewoon een kennismaking.</p>
+        <div class="text-xs opacity-40">± 45 minuten</div>
+      </div>
+      <div class="p-6 rounded-2xl border border-white/10 bg-white/5 relative group hover:bg-white/10 transition">
+        <div class="display text-5xl opacity-20 mb-4">02</div>
+        <h3 class="display text-xl mb-3">3D-Schets</h3>
+        <p class="text-sm opacity-60 leading-relaxed mb-4">Binnen 5 werkdagen ontvangt u een gedetailleerd plan met 3D-weergave, beplantingslijst en planning.</p>
+        <div class="text-xs opacity-40">5 werkdagen</div>
+      </div>
+      <div class="p-6 rounded-2xl border border-white/10 bg-white/5 relative group hover:bg-white/10 transition">
+        <div class="display text-5xl opacity-20 mb-4">03</div>
+        <h3 class="display text-xl mb-3">Offerte &amp; planning</h3>
+        <p class="text-sm opacity-60 leading-relaxed mb-4">Eén prijs, één startdatum, één opleverdatum. Geen verrassingen, geen meerwerk zonder uw goedkeuring.</p>
+        <div class="text-xs opacity-40">2 werkdagen</div>
+      </div>
+      <div class="p-6 rounded-2xl border border-white/10 bg-white/5 relative group hover:bg-white/10 transition">
+        <div class="display text-5xl opacity-5 mb-4">04</div>
+        <h3 class="display text-xl mb-3">Realisatie</h3>
+        <p class="text-sm opacity-60 leading-relaxed mb-4">Ons team komt, werkt, en vertrekt met een schone werf. U krijgt foto's van elke fase en een plantenpaspoort.</p>
+        <div class="text-xs opacity-40">Afhankelijk van project</div>
+      </div>
+    </div>
+    <div class="mt-12 text-center">
+      <a href="over.html#proces" class="inline-flex items-center gap-2 text-sm font-medium" style="color:var(--terracotta);">
+        Bekijk het volledige proces
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE/AFTER -->
+<section class="px-6 lg:px-10 py-24 bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase mb-4" style="color:var(--terracotta);">— Transformatie</p>
+        <h2 class="display text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] mb-4">
+          Voor en na.<br>
+          <span class="ui-serif" style="color:var(--stone);">Echt verschil.</span>
+        </h2>
+        <p class="text-lg opacity-60 leading-relaxed">
+          Sleep de slider om te zien wat 12 dagen werf kan betekenen. Geen renders — echte foto's van onze recente projecten.
+        </p>
+      </div>
+      <div>
+        <div class="ba-slider aspect-[4/3]" id="baSlider" @mousedown="startDrag($event)" @touchstart="startDrag($event)"
+             x-data="{ pos: 50, dragging: false, startDrag(e) { this.dragging = true; this.move(e) }, move(e) { if(!this.dragging) return; const rect = $el.getBoundingClientRect(); const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left; this.pos = Math.max(5, Math.min(95, (x / rect.width) * 100)) }, stop() { this.dragging = false } }"
+             @mousemove="move($event)" @mouseup="stop()" @mouseleave="stop()" @touchmove="move($event)" @touchend="stop()">
+          <img src="https://images.pexels.com/photos/260024/pexels-photo-260024.jpeg?auto=compress&w=1200" alt="Na" class="absolute inset-0 w-full h-full object-cover">
+          <div class="ba-overlay" :style="'width:' + pos + '%'">
+            <img src="https://images.pexels.com/photos/1558732/pexels-photo-1558732.jpeg?auto=compress&w=1200" alt="Voor" class="absolute inset-0 w-full h-full object-cover" style="width:100vw; max-width:none;">
+          </div>
+          <div class="ba-handle" :style="'left:' + pos + '%'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1C1C1C" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="ba-label before">VOOR</div>
+          <div class="ba-label after">NA</div>
+        </div>
+        <div class="flex items-center justify-between mt-4">
+          <div>
+            <div class="font-medium">Tuin Wijgmaal</div>
+            <div class="text-sm opacity-50">Renovatie · 12 dagen · €34.500</div>
+          </div>
+          <a href="realisaties.html" class="text-sm font-medium" style="color:var(--terracotta);">Meer transformaties →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="px-6 lg:px-10 py-24" style="background:var(--cream);">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-xs tracking-[0.3em] uppercase mb-3" style="color:var(--terracota);">— Wat klanten zeggen</p>
+      <h2 class="display text-[clamp(2rem,4vw,3.5rem)] leading-[1.05]">
+        <span style="color:var(--terracotta);">4.8</span> op 5
+      </h2>
+      <p class="opacity-50 mt-2">22 reviews op Google · gemiddelde 4.8</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <figure class="bg-white rounded-2xl p-8 border border-black/5">
+        <div class="flex items-center gap-1 mb-4 text-lg" style="color:var(--terracotta);">★★★★★</div>
+        <blockquote class="text-lg leading-snug font-medium mb-6">"Strakke afwerking en altijd op tijd. Onze tuin staat er na 2 jaar nog steeds zoals op dag één."</blockquote>
+        <figcaption class="text-sm opacity-50">— J. Vermeulen, Kessel-Lo</figcaption>
+      </figure>
+      <figure class="bg-white rounded-2xl p-8 border border-black/5">
+        <div class="flex items-center gap-1 mb-4 text-lg" style="color:var(--terracotta);">★★★★★</div>
+        <blockquote class="text-lg leading-snug font-medium mb-6">"Eerlijk advies, geen meerwerk achteraf. Precies wat wij zochten in een hovenier."</blockquote>
+        <figcaption class="text-sm opacity-50">— K. Dewitte, Wijgmaal</figcaption>
+      </figure>
+      <figure class="bg-white rounded-2xl p-8 border border-black/5">
+        <div class="flex items-center gap-1 mb-4 text-lg" style="color:var(--terracotta);">★★★★★</div>
+        <blockquote class="text-lg leading-snug font-medium mb-6">"Heel correct team, ze laten de werf altijd netjes achter. Aanrader in de regio Leuven."</blockquote>
+        <figcaption class="text-sm opacity-50">— M. Janssens, Bertem</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="px-6 lg:px-10 py-24 bg-white" x-data="{ open: null }">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="text-xs tracking-[0.3em] uppercase mb-3" style="color:var(--terracotta);">— Veelgestelde vragen</p>
+      <h2 class="display text-[clamp(2rem,4vw,3.5rem)] leading-[1.05]">Wat u wilt weten.</h2>
+    </div>
+    <div class="space-y-0">
+      <div class="faq-item py-6">
+        <button @click="open === 1 ? open = null : open = 1" class="flex items-center justify-between w-full text-left">
+          <span class="font-medium text-lg pr-4">Wat kost een tuinaanleg gemiddeld?</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :class="open === 1 ? 'rotate-45' : ''" class="transition-transform flex-shrink-0"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-answer" :class="open === 1 ? 'open' : ''">
+          <p class="opacity-60 leading-relaxed pt-3">Een complete aanleg start rond de €18.000 voor een kleine stadstuin (80-100 m²). Een gemiddelde tuin van 300-400 m² ligt tussen €35.000 en €65.000. Villa-tuinen vanaf 1.000 m² beginnen rond €85.000. We werken altijd met een vaste prijs — geen verrassingen achteraf.</p>
+        </div>
+      </div>
+      <div class="faq-item py-6">
+        <button @click="open === 2 ? open = null : open = 2" class="flex items-center justify-between w-full text-left">
+          <span class="font-medium text-lg pr-4">Hoe lang duurt een gemiddeld project?</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :class="open === 2 ? 'rotate-45' : ''" class="transition-transform flex-shrink-0"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-answer" :class="open === 2 ? 'open' : ''">
+          <p class="opacity-60 leading-relaxed pt-3">Een herinrichting van 100-150 m² duurt 5-8 werkdagen. Een complete aanleg van 400 m² gemiddeld 12-16 dagen. Grote projecten boven de 1.000 m² kunnen 3-6 weken duren. We geven bij de offerte een concrete opleverdatum — en houden ons eraan.</p>
+        </div>
+      </div>
+      <div class="faq-item py-6">
+        <button @click="open === 3 ? open = null : open = 3" class="flex items-center justify-between w-full text-left">
+          <span class="font-medium text-lg pr-4">Bieden jullie ook onderhoud na oplevering?</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :class="open === 3 ? 'rotate-45' : ''" class="transition-transform flex-shrink-0"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-answer" :class="open === 3 ? 'open' : ''">
+          <p class="opacity-60 leading-relaxed pt-3">Ja, dat is ons specialisme. We bieden onderhoudsformules van 4 tot 12 bezoeken per jaar. Ook als wij uw tuin niet hebben aangelegd — we starten graag met een kennismakingsbezoek om te zien wat uw tuin nodig heeft.</p>
+        </div>
+      </div>
+      <div class="faq-item py-6">
+        <button @click="open === 4 ? open = null : open = 4" class="flex items-center justify-between w-full text-left">
+          <span class="font-medium text-lg pr-4">Welke materialen gebruiken jullie?</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :class="open === 4 ? 'rotate-45' : ''" class="transition-transform flex-shrink-0"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-answer" :class="open === 4 ? 'open' : ''">
+          <p class="opacity-60 leading-relaxed pt-3">We werken uitsluitend met Belgische en Nederlandse leveranciers voor bestrating en hout. Onze beplanting komt van kwekerijen in Limburg en Oost-Vlaanderen. Voor drainage en funderingswerk gebruiken we reclivlakte materialen waar mogelijk.</p>
+        </div>
+      </div>
+      <div class="faq-item py-6">
+        <button @click="open === 5 ? open = null : open = 5" class="flex items-center justify-between w-full text-left">
+          <span class="font-medium text-lg pr-4">Werken jullie ook in het weekend?</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :class="open === 5 ? 'rotate-45' : ''" class="transition-transform flex-shrink-0"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-answer" :class="open === 5 ? 'open' : ''">
+          <p class="opacity-60 leading-relaxed pt-3">Onze standaard werkdagen zijn maandag tot vrijdag, 7u30 tot 17u30. In drukke periodes kunnen we op zaterdag werken op afspraak. We respecteren altijd de rust van de buren — geen machines voor 8u of na 18u.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="px-6 lg:px-10 py-28" style="background:var(--olive);">
+  <div class="max-w-5xl mx-auto text-center">
+    <p class="text-xs tracking-[0.3em] uppercase mb-4 opacity-70" style="color:var(--cream);">— LAAT UW TUIN ONS WERK ZIJN</p>
+    <h2 class="display text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.05] mb-8 text-white">
+      Klaar om uw tuin<br>
+      <span class="ui-serif" style="color:var(--terracotta);">op te leveren</span>?
+    </h2>
+    <p class="text-lg opacity-80 max-w-2xl mx-auto mb-10 text-white">
+      Eén gesprek, één bezoek, één heldere offerte. We nemen geen 2 maanden om terug te bellen — meestal bellen wij dezelfde dag nog.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="contact.html" class="inline-flex items-center gap-2 bg-[#B85C38] hover:bg-white hover:text-[#1C1C1C] text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300">
+        Plan een vrijblijvend bezoek
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="tel:+32499105235" class="inline-flex items-center gap-2 border-2 border-white/40 hover:bg-white hover:text-[#1C1C1C] text-white px-10 py-4 rounded-full font-bold text-lg transition-all duration-300">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Bel 0499 10 52 35
+      </a>
+    </div>
+    <div class="mt-16 grid sm:grid-cols-3 gap-8 text-sm max-w-3xl mx-auto text-white/80">
+      <div>
+        <div class="text-xs tracking-wider opacity-50 mb-2">ADRES</div>
+        <div>Wijgmaalsesteenweg 50<br>3012 Leuven</div>
+      </div>
+      <div>
+        <div class="text-xs tracking-wider opacity-50 mb-2">WERKGEBIED</div>
+        <div>Leuven · Hageland<br>Bertem · Kessel-Lo · Wijgmaal</div>
+      </div>
+      <div>
+        <div class="text-xs tracking-wider opacity-50 mb-2">OPENINGSUREN</div>
+        <div>Ma–Vr · 7u30 → 17u30<br>Zat op afspraak</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-[#1C1C1C] text-white/40 px-6 lg:px-10 py-10 text-sm">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="flex items-center gap-4">
+      <span class="display text-lg text-white/60">Toptuinen G & S</span>
+      <span class="text-xs opacity-40">© 2026 · BTW BE0XXX.XXX.XXX · Leuven</span>
+    </div>
+    <div class="flex items-center gap-6">
+      <a href="diensten.html" class="hover:text-white transition">Diensten</a>
+      <a href="realisaties.html" class="hover:text-white transition">Realisaties</a>
+      <a href="over.html" class="hover:text-white transition">Over ons</a>
+      <a href="contact.html" class="hover:text-white transition">Contact</a>
+    </div>
+    <div class="text-xs opacity-30">
+      Voorstel-website door <a href="https://deallos.com" class="underline hover:text-white/60">Deallos</a>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE CTA -->
+<div class="mobile-cta bg-white border-t border-black/5 md:hidden">
+  <div class="flex">
+    <a href="tel:+32499105235" class="flex-1 flex items-center justify-center gap-2 py-3.5 font-medium" style="background:var(--cream); color:var(--ink);">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Bellen
+    </a>
+    <a href="contact.html" class="flex-1 flex items-center justify-center gap-2 py-3.5 font-medium text-white" style="background:var(--terracotta);">
+      Offerte aanvragen
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<script>
+  // Nav background on scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.style.background = 'rgba(245,240,232,0.92)';
+      nav.style.backdropFilter = 'blur(20px)';
+      nav.style.borderBottom = '1px solid rgba(28,28,28,0.06)';
+    } else {
+      nav.style.background = 'transparent';
+      nav.style.backdropFilter = 'none';
+      nav.style.borderBottom = 'none';
+    }
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
