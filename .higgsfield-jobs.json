@@ -1,0 +1,80 @@
+{
+  "dispatched_at": "2026-05-04T13:22:00Z",
+  "note": "All these jobs were accepted as 'pending' by Higgsfield before the MCP client lost connection due to a transient Cloudflare 502. Credits already deducted. Server is back up but Claude Code MCP client exhausted its 2 reconnect attempts and needs manual /mcp restart higgsfield to resume polling.",
+  "jobs": {
+    "img/hero-hageland.jpg": {
+      "id": "4adc37eb-796b-4287-880c-584480b9ddd6",
+      "model": "nano_banana_2",
+      "aspect": "16:9"
+    },
+    "img/aanleg.jpg": {
+      "id": "e2bc2557-3b57-4891-9a9b-2fe6f814d88e",
+      "model": "nano_banana_2",
+      "aspect": "4:3"
+    },
+    "img/onderhoud.jpg": {
+      "id": "1322d447-918c-494c-913e-c234b43996fd",
+      "model": "nano_banana_2",
+      "aspect": "4:3"
+    },
+    "img/renovatie.jpg": {
+      "id": "51ca8926-405f-48dd-9af6-5184b8a17537",
+      "model": "nano_banana_2",
+      "aspect": "4:3"
+    },
+    "img/proj-wijgmaal.jpg": {
+      "id": "f7c1063a-c43e-45b2-850f-3eadbc989502",
+      "model": "nano_banana_2",
+      "aspect": "16:9"
+    },
+    "img/proj-kessel-lo.jpg": {
+      "id": "7b0c2300-0aaf-41df-94e0-534f89dc054b",
+      "model": "nano_banana_2",
+      "aspect": "16:9"
+    },
+    "img/proj-bertem.jpg": {
+      "id": "3164e6eb-4cef-4895-8e6a-dbd919213fcb",
+      "model": "nano_banana_2",
+      "aspect": "16:9"
+    },
+    "img/proj-leuven.jpg": {
+      "id": "e9d1db51-ec3b-4cd6-b62a-6dfeec8d01b9",
+      "model": "nano_banana_2",
+      "aspect": "16:9"
+    },
+    "img/proj-veltem.jpg": {
+      "id": "c0e9423f-5b9f-48b2-8f85-6c992c5d75f4",
+      "model": "nano_banana_2",
+      "aspect": "16:9"
+    },
+    "img/proj-dak.jpg": {
+      "id": "fd950cc5-0056-4e9e-882f-64fd1ca338de",
+      "model": "nano_banana_2",
+      "aspect": "16:9"
+    },
+    "img/before.jpg": {
+      "id": "9a98055c-48a5-4214-b999-468b4025a5f0",
+      "model": "nano_banana_2",
+      "aspect": "4:3"
+    },
+    "img/after.jpg": {
+      "id": "47e855c9-0635-4871-a3d6-30f9acbfb9b1",
+      "model": "nano_banana_2",
+      "aspect": "4:3"
+    }
+  },
+  "not_yet_dispatched": [
+    {
+      "file": "img/team-gert.jpg",
+      "model": "soul_2",
+      "aspect": "1:1",
+      "blocked_reason": "concurrent-job rate limit (max 8 on ultra plan)"
+    },
+    {
+      "file": "img/team-steven.jpg",
+      "model": "soul_2",
+      "aspect": "1:1",
+      "blocked_reason": "concurrent-job rate limit (max 8 on ultra plan)"
+    }
+  ]
+}

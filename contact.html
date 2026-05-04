@@ -37,7 +37,12 @@
   .service-option input:checked + div { color:var(--terracotta); }
   @keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-33%)} }
   .mobile-cta { position:fixed; bottom:0; left:0; right:0; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
-</style>
+
+  #mobileMenu{display:none;position:fixed;inset:0;z-index:200;background:#151515/95;backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:2rem;font-size:1.5rem}
+  #mobileMenu.open{display:flex}
+  .hamburger{display:block;padding:8px;cursor:pointer;color:#F3EFE6}
+  @media(min-width:768px){.hamburger{display:none}}
+  </style>
 </head>
 <body x-data="funnel()" style="padding-bottom:72px;">
 
@@ -52,7 +57,7 @@
 </div>
 
 <!-- NAV -->
-<header class="fixed top-8 left-0 right-0 z-40 bg-[#F5F0E8]/90 backdrop-blur-xl border-b border-black/5">
+<header class="fixed top-8 left-0 right-0 z-40 bg-[#151515]/80 backdrop-blur-xl border-b border-white/5">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
     <div class="flex items-center justify-between py-4">
       <a href="index.html" class="flex items-baseline gap-2">
@@ -65,7 +70,10 @@
         <a href="over.html" class="hover:opacity-60 transition">Over ons</a>
         <a href="contact.html" class="hover:opacity-60 transition" style="color:var(--terracotta);">Contact</a>
       </nav>
-      <a href="tel:+32499105235" class="hidden md:inline-flex items-center gap-2 bg-[#1C1C1C] hover:bg-[#B85C38] text-white px-5 py-2.5 rounded-full text-sm font-medium transition">
+            <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </div>
+<a href="tel:+32499105235" class="hidden md:inline-flex items-center gap-2 bg-[#1C1C1C] hover:bg-[#B85C38] text-white px-5 py-2.5 rounded-full text-sm font-medium transition">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         0499 10 52 35
       </a>
@@ -97,7 +105,7 @@
 
     <!-- FORM -->
     <div class="lg:col-span-3">
-      <div class="bg-white rounded-3xl border border-black/5 p-8 md:p-10 shadow-sm">
+      <div class="bg-[#1C1C1C] rounded-3xl border border-white/5 p-8 md:p-10 shadow-sm">
 
         <!-- Progress -->
         <div class="mb-8">
@@ -115,7 +123,7 @@
           <h2 class="display text-2xl mb-2">Waar ligt uw tuin?</h2>
           <p class="text-sm opacity-50 mb-6">We werken in een straal van 35 km rond Leuven. Controleer of uw postcode in ons werkgebied ligt.</p>
           <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Postcode</label>
-          <input type="text" x-model="form.postcode" @input="postcodeCheck()" placeholder="bijv. 3010" maxlength="4" class="w-full text-2xl font-bold px-5 py-4 rounded-xl border-2 bg-transparent" :class="postcodeError ? 'border-red-300' : 'border-black/10'">
+          <input type="text" x-model="form.postcode" @input="postcodeCheck()" placeholder="bijv. 3010" maxlength="4" class="w-full text-2xl font-bold px-5 py-4 rounded-xl border-2 bg-transparent" :class="postcodeError ? 'border-red-300' : 'border-white/10'">
           <p x-show="postcodeError" x-transition class="text-red-500 text-sm mt-2" x-text="postcodeError"></p>
           <p x-show="postcodeValid" x-transition class="text-sm mt-2" style="color:var(--olive);">✓ Uw postcode ligt in ons werkgebied.</p>
           <button @click="step2()" :disabled="!postcodeValid" class="mt-6 w-full py-4 rounded-full font-medium text-white transition-all duration-300" :class="postcodeValid ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
@@ -156,7 +164,7 @@
             </label>
           </div>
           <div class="flex gap-3">
-            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-white/10 font-medium hover:bg-black/5 transition">Terug</button>
             <button @click="step++" :disabled="form.services.length === 0" class="flex-1 py-3 rounded-full font-medium text-white transition-all" :class="form.services.length > 0 ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
           </div>
         </div>
@@ -197,7 +205,7 @@
             </label>
           </div>
           <div class="flex gap-3">
-            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-white/10 font-medium hover:bg-black/5 transition">Terug</button>
             <button @click="step++" :disabled="!form.budget" class="flex-1 py-3 rounded-full font-medium text-white transition-all" :class="form.budget ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
           </div>
         </div>
@@ -209,33 +217,33 @@
           <div class="space-y-4 mb-6">
             <div>
               <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Naam</label>
-              <input type="text" x-model="form.name" placeholder="Uw volledige naam" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+              <input type="text" x-model="form.name" placeholder="Uw volledige naam" class="w-full px-4 py-3 rounded-xl border-2 border-white/10 bg-transparent">
             </div>
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Telefoon</label>
-                <input type="tel" x-model="form.phone" placeholder="04xx xx xx xx" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+                <input type="tel" x-model="form.phone" placeholder="04xx xx xx xx" class="w-full px-4 py-3 rounded-xl border-2 border-white/10 bg-transparent">
               </div>
               <div>
                 <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">E-mail</label>
-                <input type="email" x-model="form.email" placeholder="naam@voorbeeld.be" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+                <input type="email" x-model="form.email" placeholder="naam@voorbeeld.be" class="w-full px-4 py-3 rounded-xl border-2 border-white/10 bg-transparent">
               </div>
             </div>
             <div>
               <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Gemeente / Straat</label>
-              <input type="text" x-model="form.address" placeholder="bijv. Kessel-Lo, Dorpstraat" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+              <input type="text" x-model="form.address" placeholder="bijv. Kessel-Lo, Dorpstraat" class="w-full px-4 py-3 rounded-xl border-2 border-white/10 bg-transparent">
             </div>
             <div>
               <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Oppervlakte tuin (m², schatting)</label>
-              <input type="number" x-model="form.surface" placeholder="bijv. 250" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent">
+              <input type="number" x-model="form.surface" placeholder="bijv. 250" class="w-full px-4 py-3 rounded-xl border-2 border-white/10 bg-transparent">
             </div>
             <div>
               <label class="block text-xs tracking-wider uppercase opacity-50 mb-2">Vertel kort uw wensen of situatie</label>
-              <textarea x-model="form.notes" rows="4" placeholder="Wat wilt u veranderen of aanleggen? Heeft u al een ontwerp of moet dat nog?" class="w-full px-4 py-3 rounded-xl border-2 border-black/10 bg-transparent resize-none"></textarea>
+              <textarea x-model="form.notes" rows="4" placeholder="Wat wilt u veranderen of aanleggen? Heeft u al een ontwerp of moet dat nog?" class="w-full px-4 py-3 rounded-xl border-2 border-white/10 bg-transparent resize-none"></textarea>
             </div>
           </div>
           <div class="flex gap-3">
-            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-white/10 font-medium hover:bg-black/5 transition">Terug</button>
             <button @click="step++" :disabled="!form.name || !form.phone" class="flex-1 py-3 rounded-full font-medium text-white transition-all" :class="form.name && form.phone ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">Verder</button>
           </div>
         </div>
@@ -267,7 +275,7 @@
           </div>
 
           <div class="flex gap-3">
-            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-black/10 font-medium hover:bg-black/5 transition">Terug</button>
+            <button @click="step--" class="px-6 py-3 rounded-full border-2 border-white/10 font-medium hover:bg-black/5 transition">Terug</button>
             <button @click="submitForm()" :disabled="!form.consent || submitting" class="flex-1 py-4 rounded-full font-bold text-white transition-all flex items-center justify-center gap-2" :class="form.consent && !submitting ? 'bg-[#B85C38] hover:bg-[#1C1C1C]' : 'bg-black/20 cursor-not-allowed'">
               <span x-show="!submitting">Verstuur aanvraag</span>
               <span x-show="submitting" class="flex items-center gap-2">
@@ -295,21 +303,21 @@
 
     <!-- REASSURANCE SIDEBAR -->
     <div class="lg:col-span-2 space-y-6">
-      <div class="bg-white rounded-2xl border border-black/5 p-6">
+      <div class="bg-[#1C1C1C] rounded-2xl border border-white/5 p-6">
         <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(184,92,56,0.1);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B85C38" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <h3 class="font-semibold mb-1">Altijd een vaste prijs</h3>
         <p class="text-sm opacity-50 leading-relaxed">Geen verrassingen achteraf. Wat we afspreken, betaalt u. Geen meerwerk zonder uw uitdrukkelijke goedkeuring.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-black/5 p-6">
+      <div class="bg-[#1C1C1C] rounded-2xl border border-white/5 p-6">
         <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(74,93,62,0.1);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A5D3E" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <h3 class="font-semibold mb-1">Reactie binnen 4 uur</h3>
         <p class="text-sm opacity-50 leading-relaxed">We bellen dezelfde werkdag nog terug — niet over twee weken. Geen robots, geen callcenters.</p>
       </div>
-      <div class="bg-white rounded-2xl border border-black/5 p-6">
+      <div class="bg-[#1C1C1C] rounded-2xl border border-white/5 p-6">
         <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background:rgba(140,133,120,0.1);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8C8578" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
         </div>
@@ -320,7 +328,7 @@
       <!-- Direct contact -->
       <div class="rounded-2xl p-6 text-white" style="background:var(--olive);">
         <h3 class="font-semibold mb-3">Liever direct contact?</h3>
-        <a href="tel:+32499105235" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 transition mb-3">
+        <a href="tel:+32499105235" class="flex items-center gap-3 py-3 px-4 rounded-xl bg-[#1C1C1C]/10 hover:bg-[#1C1C1C]/20 transition mb-3">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span class="font-medium">0499 10 52 35</span>
         </a>
@@ -360,7 +368,7 @@
 </footer>
 
 <!-- MOBILE CTA -->
-<div class="mobile-cta bg-white border-t border-black/5 md:hidden">
+<div class="mobile-cta bg-[#1C1C1C] border-t border-white/5 md:hidden">
   <div class="flex">
     <a href="tel:+32499105235" class="flex-1 flex items-center justify-center gap-2 py-3.5 font-medium" style="background:var(--cream); color:var(--ink);">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -412,5 +420,17 @@ function funnel() {
 }
 </script>
 
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu">
+  <div class="hamburger absolute top-6 right-6" onclick="document.getElementById('mobileMenu').classList.toggle('open')">
+    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </div>
+  <a href="index.html">Home</a>
+  <a href="diensten.html">Diensten</a>
+  <a href="realisaties.html">Realisaties</a>
+  <a href="over.html">Over ons</a>
+  <a href="contact.html" style="color:var(--terracotta)">Contact</a>
+</div>
 </body>
 </html>
